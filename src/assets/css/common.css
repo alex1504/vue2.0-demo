@@ -1,0 +1,24 @@
+/* 通用 */
+html,body{
+	width: 100%;
+	height: 100%;
+	overflow-x: hidden;
+}
+
+.md-spinner{
+	margin-top: 10px;
+}
+/* 主题 */
+/* .md-theme-blue{
+	background-color: #2196f3
+}
+.md-theme-teal{
+	background-color: #009688
+}
+.md-theme-brown{
+	background-color: #795548
+}
+.md-theme-indigo{
+	background-color: #3f51b5
+}
+ */

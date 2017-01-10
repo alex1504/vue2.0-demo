@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: 'history',
+  base: '/vue2.0-demo-master/',
 	routes:[
   {
     name: 'home',
@@ -11,26 +11,32 @@ const router = new VueRouter({
     component: require('../views/home.vue'),
     children: [
         {
-          // 当 /user/:id/profile 匹配成功，
-          // UserProfile 会被渲染在 User 的 <router-view> 中
           path: 'movie',
           name: 'movie',
           component: require('../components/movie.vue')
         },
         {
-          // 当 /user/:id/posts 匹配成功
-          // UserPosts 会被渲染在 User 的 <router-view> 中
           path: 'music',
           name: 'music',
           component: require('../components/music.vue')
+        },
+        {
+          path: 'book',
+          name: 'book',
+          component: require('../components/book.vue')
+        },
+        {
+          path: 'photo',
+          name: 'photo',
+          component: require('../components/photo.vue')
         }
       ]
   },
   {
     path:'/login',component: require('../views/login.vue')
-  },
+  },  
   {
-    path:'*',redirect:'/home/movie'
+    path:'*', redirect: './home/movie'
   }]
 });
 

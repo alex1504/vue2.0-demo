@@ -7,7 +7,7 @@
 -  vue-router: Official router plugin
 -  axios:  A http request plugin
 
-## Plugin of production
+## Plugin of dev
 Please check package.json profile
 
 ## View in Online Address

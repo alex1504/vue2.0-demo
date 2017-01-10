@@ -5,11 +5,13 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import home from './views/home.vue'
 export default {
   name: 'app',
   data(){
     return{
+      
     }
   },
   methods:{

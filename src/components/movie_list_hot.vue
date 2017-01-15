@@ -1,22 +1,26 @@
 <template>
-<div id="movielist-hot" class="wrap-scroll">
-	<md-layout md-gutter>
-		  <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33" v-for="movie in movieLists">
-          <md-card>
-                <md-card-media>
-                  <img :src="movie.images.large" alt="海报">
-                </md-card-media>
-                <md-card-header>
-                  <div class="md-title">{{movie.title}}</div>
-                  <div class="md-subhead"><span v-for="genre in movie.genres">{{genre}}/</span><span>({{movie.year}})</span><span>(平均{{movie.rating.average}}分)</span></div>
-                </md-card-header>
-                <md-card-actions>
-                  <md-button>详情</md-button>
-                </md-card-actions>
-              </md-card>
-      </md-layout>
-	  	<md-spinner :md-size="60" md-indeterminate v-show='spinnerFlag'></md-spinner>
-	</md-layout>
+<div id="movielist-hot" class="j-container">
+  <div class="j-content">
+    <md-list class="custom-list md-triple-line">
+      <md-list-item v-for="movie in movieLists">
+        <md-avatar>
+          <img :src="movie.images.large" alt="People">
+        </md-avatar>
+
+        <div class="md-list-text-container">
+          <span>{{movie.title}}</span>
+          <p><span v-for="genre in movie.genres">{{genre}}</span>({{movie.year}})(平均{{movie.rating.average}}分)</p>
+        </div>
+
+        <md-button class="md-icon-button md-list-action">
+          <md-icon class="md-primary">详情</md-icon>
+        </md-button>
+
+        <md-divider class="md-inset"></md-divider>
+      </md-list-item>
+    </md-list>
+    <md-spinner :md-size="60" md-indeterminate v-show='spinnerFlag'></md-spinner>
+  </div>
 </div>
 	
 </template>
@@ -25,7 +29,8 @@ import axios from "axios"
 export default {
   data(){
   	return {
-  		scrEle: null,
+      scrContainer: null,
+      scrContent: null,
   		eleH: 0,
   		spinnerFlag: true,
   		movieLists: [],
@@ -33,39 +38,40 @@ export default {
   	}
   },
   mounted:function(){
-  	this.scrEle = document.querySelector(".wrap-scroll");
-  	this.eleH = this.scrEle.offsetHeight;
-  	this.loadMore();
-  	window.addEventListener('scroll', function(e){
-  		if(this.isTouchScreenBtm(e)){
-  			this.loadMore();
-  		}
-  	}.bind(this))
+  	this.scrContainer = this.$el;
+    this.scrContent = this.$el.querySelector(".j-content")
+    this.eleH = this.scrContent.offsetHeight;
+    console.log(this.loadMore());
+    this.scrContainer.addEventListener('scroll', function(e){
+      if(this.isTouchScreenBtm(e)){
+        this.loadMore();
+      }
+    }.bind(this))
   },
   watch: {
   	movieLists: function(){
   		setTimeout(function(){
-  			this.eleH = this.scrEle.offsetHeight;
-  		}.bind(this),1000)
+        this.eleH = this.scrContent.offsetHeight;
+      }.bind(this),1000)
   	}
   },
   methods: {
   	isTouchScreenBtm: function(e){
-  		var winH = window.innerHeight || document.documentElement.clientHeight;
-  		var navH = document.querySelector(".top-nav").offsetHeight;
-  		var innerWinH = winH - navH * 2;
-  		var eleH = this.eleH;
-  		var scrT = document.body.scrollTop || document.documentElement.scrollTop;
-  		if(scrT >= eleH - innerWinH){
-  			return true;
-  		}else{
-  			return false
-  		}
-  	},
+      var winH = window.innerHeight || document.documentElement.clientHeight;
+      var navH = document.querySelector(".top-nav").offsetHeight * 2;
+      var innerWinH = winH - navH + 168;
+      var eleH = this.eleH;
+      var scrT = this.scrContainer.scrollTop;
+      if(scrT >= eleH - innerWinH){
+        return true;
+      }else{
+        return false
+      }
+    },
 	loadMore: function() {
-	  if(this.busy){
-	  	 return;
-	  }
+  	  if(this.busy){
+  	  	 return;
+  	  }
       var start = this.movieLists.length;
       this.busy = true;
       this.spinnerFlag = true;
@@ -81,22 +87,21 @@ export default {
 		  .catch(function (error) {
 		    console.log(error);
 		  });
-	  
     }
   }
 }
 </script>
 <style scoped lang="scss">
-#movielist-hot{
-	text-align: center;
+.j-container{
+  text-align: center;
+  height: 77vh;
+  overflow-y: scroll
 }
-.md-card{
-	width: 80%;
-	margin: 10px auto;
+.j-content{
+  height: auto;
 }
-.md-spinner{
-	margin: 0 auto;
-}
+
+
 </style>
 
 

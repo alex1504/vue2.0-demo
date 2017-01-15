@@ -12,7 +12,7 @@ Please check package.json profile
 
 ## View in Online Address
 [http://huzerui.com/vue2.0-demo/](http://huzerui.com/vue2.0-demo/)
-Remember to open it in mobile testing mode in browser or just opening it in your mobilephone for better view.
+You'd better open it in mobile mode of browser or just view in your mobilephone
 
 ## View in local
 

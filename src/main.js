@@ -1,14 +1,17 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import store from './store/store'
 import VueMaterial  from 'vue-material'
-import mockData from './mock'
-import infiniteScroll from "vue-infinite-scroll"
 
+/*mockData在接口尚未完成用于生成假数据，项目上线时不需引入*/
+import mockData from './mock'
+
+/*全局常量*/
 global.API_PROXY = 'https://bird.ioliu.cn/v1/?url='
 
-Vue.use(infiniteScroll)
 
+/*注册主题*/
 Vue.use(VueMaterial)
 Vue.material.registerTheme('default', {
   primary: 'blue',
@@ -45,6 +48,7 @@ Vue.material.registerTheme('indigo', {
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 })
 

@@ -12,7 +12,9 @@
     "axios": "^0.15.3",
     "vue": "^2.1.0",
     "vue-material": "^0.5.2",
-    "vue-router": "^2.1.1"
+    "vue-router": "^2.1.1",
+    "vue-swipe": "^2.0.2",
+    "vuex": "^2.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",

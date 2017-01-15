@@ -1,29 +1,15 @@
 <template>
 <div id="music">
-	<search @searchSong="showResults" @showList="showList"></search>
+	<search @searchSong="showResults"></search>
 	<audio :src='src' ref="audio"></audio>
-	<md-list v-show="flag">
+	<md-list v-if="flag">
 	    <md-list-item v-for="(music, index) of playLists" @click='togglePlay(index)'>
 	      <md-avatar>
 	        <img :src="music.album.picUrl" alt="People">
 	      </md-avatar>
 	      <span>{{music.name}}/{{music.duration}}</span>
 	      <md-button class="md-icon-button md-list-action">
-	        <md-icon class="md-primary md-theme-teal" v-text="audioState[index].iconState"></md-icon>
-	      </md-button>
-	    </md-list-item>
-	</md-list> 
-	
-	<md-list v-show="!flag">
-	    <md-list-item v-for="(music, index) of searchLists" @click='togglePlay(index)'>
-	      <md-avatar>
-	        <img :src="music.album.picUrl" alt="People">
-	      </md-avatar>
-	
-	      <span>{{music.name}}</span>
-	
-	      <md-button class="md-icon-button md-list-action">
-	        <md-icon class="md-primary md-theme-teal" v-text="audioState[index].iconState"></md-icon>
+	      <md-icon class="md-primary md-theme-teal"><i :class="['iconfont', state[index].iconState]"></i></md-icon>
 	      </md-button>
 	    </md-list-item>
 	</md-list> 
@@ -35,6 +21,23 @@
 	  @close="onClose"
 	  ref="dialog">
 	</md-dialog-alert>
+
+
+	<md-list v-if="!flag">
+	    <md-list-item v-for="(music, index) of searchLists" @click='togglePlay(index)'>
+	      <md-avatar>
+	        <img :src="music.album.picUrl" alt="People">
+	      </md-avatar>
+	
+	      <span>{{music.name}}</span>
+	
+	      <md-button class="md-icon-button md-list-action">
+	        <md-icon class="md-primary md-theme-teal"><i :class="['iconfont', state[index].iconState]"></i></md-icon>
+	      </md-button>
+	    </md-list-item>
+	</md-list> 
+
+	
 	<md-spinner class="md-theme-teal" :md-size="60" md-indeterminate v-show='spinnerFlag'></md-spinner>
 </div>
 	
@@ -53,7 +56,7 @@ export default {
 	      content: '云音乐资源不稳定，请重试',
 	      ok: '好的!'
 	    },
-		audioState: [],
+		state: [],
 		src: '',
 		spinnerFlag: true,
 		playLists: [],
@@ -69,10 +72,10 @@ export default {
 	  	console.log(res);
 	    res.data.result.tracks.forEach((music,index)=>{
 	    	this.playLists.push(music);
-	    	this.audioState.push({
+	    	this.state.push({
 	    		paused: true,
 	    		index: index,
-	    		iconState: 'play_circle_filled' 
+	    		iconState: 'icon-play'
 	    	});
 	    })
 	    this.spinnerFlag = false;
@@ -84,19 +87,19 @@ export default {
   methods: {
     togglePlay(index){
     	/*单击的音乐处于播放状态相应处理*/
-    	if(!this.audioState[index].paused){
-    		this.audioState[index].paused = true;
-    		this.audioState[index].iconState = 'play_circle_filled';
+    	if(!this.state[index].paused){
+    		this.state[index].paused = true;
+    		this.state[index].iconState = 'icon-play';
     		this.$refs.audio.pause();
     		return;
     	}
     	/*单击的音乐处于暂停状态相应处理*/
-    	this.audioState.forEach(obj=>{
+    	this.state.forEach(obj=>{
     		obj.paused = true;
-    		obj.iconState = 'play_circle_filled';
+    		obj.iconState = 'icon-play';
     	})
-    	this.audioState[index].paused = false;
-    	this.audioState[index].iconState = 'pause_circle_filled';
+    	this.state[index].paused = false;
+    	this.state[index].iconState = 'icon-pause';
     	
     	this.$refs.audio.src = this.flag ? this.playLists[index].mp3Url :  this.searchLists[index].audio;
     	/**
@@ -104,15 +107,19 @@ export default {
     	 this.$refs.audio.play()返回promise对象，因此有then catch方法
     	*/
 		this.$refs.audio.play().catch(function(e){
-			this.audioState[index].paused = true;
-    		this.audioState[index].iconState = 'play_circle_filled';
+			this.state[index].paused = true;
+    		this.state[index].iconState = 'icon-play';
     		this.$refs.audio.pause();
 			this.openDialog('dialog')
 		}.bind(this));
     },
     showResults(songs){
-    	this.searchLists = songs;
-    	this.flag = !this.flag
+    	if(songs){
+    		this.searchLists = songs;
+    		this.flag = false
+    	}else{
+    		this.flag = true
+    	}
     },
     showList: function(){
     	this.flag = true
@@ -140,10 +147,7 @@ export default {
 		padding: 64px 0;
 		text-align: center;
 	}
-	.md-list{
-		padding:0
-	}
-
+	
 </style>
 
 

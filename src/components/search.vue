@@ -2,8 +2,8 @@
 <div id="searchBar">
   <md-theme md-name="teal">
 	<md-input-container md-inline>
-	    <label><md-icon>search</md-icon>搜索</label>
-	    <md-input v-model="searchQuery" @keyup.enter.native="search" @keyup.delete.native="deleteHandler"></md-input>
+	    <label><i class="iconfont icon-search"></i>搜索</label>
+	    <md-input v-model="searchQuery" @keyup.native="search"></md-input>
   	</md-input-container>
   </md-theme>
 </div>
@@ -11,6 +11,7 @@
 </template>
 <script>
 import axios from "axios"
+import Util from "../util/util.js"
 export default {
   data() {
   	return {
@@ -18,21 +19,19 @@ export default {
   	}
   },
   methods: {
-    search: function(){
-    	axios.get(API_PROXY+'http://s.music.163.com/search/get?type=1&s='+this.searchQuery)
-		  .then(function(res) {
-		    this.$emit("searchSong",res.data.result.songs);
-		  }.bind(this))
-		  .catch(function (error) {
-		    console.log(error);
-		  });
-    },
-    deleteHandler: function(){
-    	if(this.searchQuery === ''){
-    		this.$emit("showList");
-    	}
-    }
-  }
+    search: Util.debounce(function(){
+		    	axios.get(API_PROXY+'http://s.music.163.com/search/get?type=1&s='+this.searchQuery)
+				  .then(function(res) {
+				  	if(res.data.result && res.data.result.songs)
+				    	this.$emit("searchSong", res.data.result.songs);
+				    if(typeof res.data.result === "undefined")
+				    	this.$emit("searchSong", '');
+				  }.bind(this))
+				  .catch(function (error) {
+				    console.log(error);
+				  });
+    		},500)
+  	}
 }
 </script>
 <style lang="scss" scoped>

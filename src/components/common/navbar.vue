@@ -27,7 +27,7 @@
 
 
 <script>
-import Util from "../util/util.js"
+import Util from "../../util/util.js"
 import { mapMutations } from 'vuex'
 
 export default {

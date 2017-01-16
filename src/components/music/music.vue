@@ -1,5 +1,6 @@
 <template>
 <div id="music">
+	<backToTop @clickBack="backToTop"></backToTop>
 	<search @searchSong="showResults"></search>
 	<audio :src='src' ref="audio"></audio>
 	<md-list v-if="flag">
@@ -43,11 +44,13 @@
 	
 </template>
 <script>
-import Search from "./search.vue"
+import Search from "./search_music.vue"
+import backToTop from "../common/backToTop.vue"
 import axios from "axios"
 export default {
   components: {
-  	search: Search
+  	search: Search,
+  	backToTop: backToTop
   },
   data() {
 	return {
@@ -69,7 +72,6 @@ export default {
   mounted:function(){
   	axios.get(API_PROXY+'http://music.163.com/api/playlist/detail?id=98833242')
 	  .then(function (res) {
-	  	console.log(res);
 	    res.data.result.tracks.forEach((music,index)=>{
 	    	this.playLists.push(music);
 	    	this.state.push({
@@ -135,6 +137,9 @@ export default {
     },
     onClose(type) {
       console.log('Closed', type);
+    },
+    backToTop(){
+    	document.body.scrollTop = 0;
     }
     
   }

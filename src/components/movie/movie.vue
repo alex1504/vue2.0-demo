@@ -1,5 +1,6 @@
 <template>
 <div id="movie">
+	<backToTop @clickBack="backToTop"></backToTop>
 	<md-theme md-name="blue">
 		<md-tabs md-fixed :class="{'wrap-fixed': isScrollDown}">
 		  <md-tab md-label="top250"><movieListTop250></movieListTop250></md-tab>
@@ -7,16 +8,16 @@
 		  <md-tab md-label="即将上映"><movieListComing></movieListComing></md-tab>
 	    </md-tabs>
 	</md-theme>
-	
 </div>
 	
 </template>
 
 <script>
-import Util from "../util/util.js"
+import Util from "../../util/util.js"
 import movieListTop250 from "./movie_list_top250.vue"
 import movieListHot from "./movie_list_hot.vue"
 import movieListComing from "./movie_list_coming.vue"
+import backToTop from "../common/backToTop.vue"
 export default {
   data() {
 	return {
@@ -24,24 +25,22 @@ export default {
 	};
   },
   mounted: function(){
-  	var scrT = document.body.scrollTop || window.scrollY;
-  	/*window.addEventListener("scroll",Util.debounce(function(){
-  		var newScrT = document.body.scrollTop || window.scrollY;
-  		if(newScrT > 80 && newScrT > scrT)
-  			this.isScrollDown = true;
-  		else 
-  			this.isScrollDown = false;
-  	},200).bind(this));*/
+ 
   },
   methods: {
     switchMovie(index){
     	console.log(1)
+    },
+    backToTop(){
+    	this.$el.querySelector(".j-container").scrollTop = 0;
     }
+
   },
   components:{
   	movieListTop250,
   	movieListHot,
   	movieListComing,
+  	backToTop
   }
 }
 </script>
@@ -63,6 +62,7 @@ export default {
 		top: 0;
 		width: 100%;
 	}
+
 </style>
 
 

@@ -40,6 +40,14 @@ html,body{
   padding: 0;
 }
 
+.md-theme-blue a:not(.md-button){
+    color:blue;
+}
+
+
+
+
+
 /* 图标 */
 .iconfont{
 	width: 24px;

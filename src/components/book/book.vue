@@ -86,7 +86,6 @@ export default {
     text-align: center;
     
     .mint-swipe-item{
-      background-color: red;
       height: 100%;
       background-repeat: no-repeat;
       background-position: center center;
@@ -99,7 +98,6 @@ export default {
 
   .slide1 {
     background: url('https://img3.doubanio.com/lpic/s27102925.jpg');
-
     color: #fff;
   }
 

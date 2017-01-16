@@ -1,17 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as types from "./types.js"
 Vue.use(Vuex)
-
-const MUTATION_THEME_CHANGE = 'THEME_CHANGE'
-
 
 const store = new Vuex.Store({
 	state: {
-		theme: 'blue'
+		theme: 'blue',
+	},
+	getters: {
+		
 	},
 	mutations:{
-		[MUTATION_THEME_CHANGE](state,payload){
-			console.log(payload.theme);
+		[types.THEME_CHANGE](state,payload){
 			state.theme = payload.theme
 		}
 	}

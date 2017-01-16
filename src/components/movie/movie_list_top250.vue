@@ -13,7 +13,7 @@
           </div>
 
           <md-button class="md-icon-button md-list-action">
-            <md-icon class="md-primary">详情</md-icon>
+          <md-icon class="md-primary"><router-link :to="{name: 'movie-detail', params:{id: movie.id}}">详情</router-link></md-icon>
           </md-button>
 
           <md-divider class="md-inset"></md-divider>

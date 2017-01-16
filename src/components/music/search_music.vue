@@ -11,7 +11,7 @@
 </template>
 <script>
 import axios from "axios"
-import Util from "../util/util.js"
+import Util from "../../util/util.js"
 export default {
   data() {
   	return {

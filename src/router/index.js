@@ -19,10 +19,7 @@ const router = new VueRouter({
         {
           path: 'music',
           name: 'music',
-          component: require('../components/music/music.vue'),
-          beforeEnter: (to, from, next) => {
-            alert(to);
-          }
+          component: require('../components/music/music.vue')
         },
         {
           path: 'book',

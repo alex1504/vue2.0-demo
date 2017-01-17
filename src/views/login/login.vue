@@ -1,6 +1,6 @@
 <template>
 	<div id="login">
-		<form novalidate @submit.stop.prevent="submit">
+		<form novalidate autocomplete="off">
 	      <md-avatar class="md-large">
 		    <img src="./img/login_avatar.jpg" alt="People">
 		  </md-avatar>

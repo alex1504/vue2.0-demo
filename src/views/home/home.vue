@@ -16,13 +16,7 @@
 			</keep-alive>
 		</md-theme>
 
-		<md-dialog-alert
-		  :md-content="alert.content"
-		  :md-ok-text="alert.ok"
-		  @open="onOpen"
-		  @close="onClose"
-		  ref="check">
-		</md-dialog-alert>
+		
 	</div>
 </template>
 <script>
@@ -32,27 +26,13 @@ import music from "../../components/music/music.vue"
 export default {
 	data(){
 		return{
-			alert:{
-				content:' ',
-				ok:'ok'
-			},
+			
 		}
 	},
 	mounted(){
-		window.onload = function(){
-			if(!this.checkIsLogined()){
-				this.alert.content = '登录过期，请重新登录';
-				this.openDialog('check');
-				setTimeout(function(){
-				    this.$router.push({name:'login'})
-				}.bind(this),5000)
-			}
-		}.bind(this)
+		
 	},
 	computed: {
-		activeRoute(){
-			return this.$store.state.activeRoute
-		},
 		theme(){
 			return this.$store.getters.theme
 		}
@@ -67,29 +47,7 @@ export default {
 	    close(ref) {
 	      console.log('Closed: ' + ref);
 	    },
-	    checkIsLogined(){
-			var loginTime = localStorage.getItem('loginTime')*1;
-			var token = localStorage.getItem('token');
-			var time = localStorage.getItem('tokenEnabled')*1;
-			var now = Date.now();
-			if(!loginTime || !token || !time){ return false};
-			if((loginTime+time) <= now){
-				return false
-			};
-			return true
-		},
-		openDialog(ref) {
-	      this.$refs[ref].open();
-	    },
-	    closeDialog(ref) {
-	      this.$refs[ref].close();
-	    },
-	    onOpen() {
-	      console.log('Opened');
-	    },
-	    onClose(type) {
-	      this.$router.push({name:'login'})
-	    }
+	    
 	},
 	components: {
 		navBar,

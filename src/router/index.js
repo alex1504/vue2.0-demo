@@ -43,8 +43,8 @@ const router = new VueRouter({
   {
     path:'*', redirect: './login'
   }]
-});
 
+});
 
 
 export default router;

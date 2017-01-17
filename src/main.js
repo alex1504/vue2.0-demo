@@ -43,6 +43,13 @@ Vue.material.registerTheme('indigo', {
   warn: 'red',
   background: 'white'
 })
+Vue.material.registerTheme('whiteForm', {
+  primary: 'white',
+  accent: 'deep-orange',
+  warn: 'red',
+  background: 'white'
+})
+
 
 
 new Vue({

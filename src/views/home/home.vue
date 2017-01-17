@@ -15,6 +15,8 @@
 				<router-view></router-view>
 			</keep-alive>
 		</md-theme>
+
+		
 	</div>
 </template>
 <script>
@@ -24,17 +26,17 @@ import music from "../../components/music/music.vue"
 export default {
 	data(){
 		return{
+			
 		}
 	},
+	mounted(){
+		
+	},
 	computed: {
-		activeRoute(){
-			return this.$store.state.activeRoute
-		},
 		theme(){
 			return this.$store.getters.theme
 		}
 	},
-
 	methods: {
 		toggleLeftSidenav() {
 	      this.$refs.leftSidenav.toggle();
@@ -44,7 +46,8 @@ export default {
 	    },
 	    close(ref) {
 	      console.log('Closed: ' + ref);
-	    }
+	    },
+	    
 	},
 	components: {
 		navBar,

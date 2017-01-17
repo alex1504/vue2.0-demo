@@ -19,9 +19,6 @@ const router = new VueRouter({
           path: 'music',
           name: 'music',
           component: require('../components/music/music.vue'),
-          /*beforeEnter: (to, from, next) => {
-            alert(to);
-          }*/
         },
         {
           path: 'book',
@@ -36,7 +33,7 @@ const router = new VueRouter({
       ]
   },
   {
-    path:'/login',component: require('../views/login/login.vue')
+    name: 'login', path:'/login',component: require('../views/login/login.vue')
   },  
   {
     path: '/home/movie/detail/:id',
@@ -44,7 +41,7 @@ const router = new VueRouter({
     component: require('../components/movie/movie_detail.vue'),
   },
   {
-    path:'*', redirect: './home/movie'
+    path:'*', redirect: './login'
   }]
 });
 

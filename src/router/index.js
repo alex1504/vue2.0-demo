@@ -8,18 +8,20 @@ const router = new VueRouter({
   {
     name: 'home',
     path:'/home',
-    component: require('../views/home.vue'),
+    component: require('../views/home/home.vue'),
     children: [
         {
           path: 'movie',
           name: 'movie',
           component: require('../components/movie/movie.vue'),
         },
-        
         {
           path: 'music',
           name: 'music',
-          component: require('../components/music/music.vue')
+          component: require('../components/music/music.vue'),
+          /*beforeEnter: (to, from, next) => {
+            alert(to);
+          }*/
         },
         {
           path: 'book',
@@ -34,7 +36,7 @@ const router = new VueRouter({
       ]
   },
   {
-    path:'/login',component: require('../views/login.vue')
+    path:'/login',component: require('../views/login/login.vue')
   },  
   {
     path: '/home/movie/detail/:id',

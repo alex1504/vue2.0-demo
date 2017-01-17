@@ -6,7 +6,7 @@
 			  <md-button class="md-icon-button" @click.native="toggleLeftSidenav">
 			  	<md-icon><i class="iconfont icon-menu"></i></md-icon>
 			  </md-button>
-			  <h2 class="md-title" style="flex: 1" v-text="mapTitle"></h2>
+			  <h2 class="md-title" style="flex: 1" v-text="activeRoute"></h2>
 			  <md-button class="md-icon-button">
 			  	<md-icon><i class="iconfont icon-tubiao-"></i></md-icon>
 			  </md-button>
@@ -14,10 +14,10 @@
 		</transition>	
 		<transition name="slideD">		
 			<md-bottom-bar md-shift class="btm-nav">
-			<md-bottom-bar-item @click.native="doAction('blue', 0)" :class="{'md-active': isActive[0]}"><i class="iconfont icon-tubiao- btm-nav-icon"></i>电影</md-bottom-bar-item>
-				<md-bottom-bar-item @click.native="doAction('teal', 1)" :class="{'md-active': isActive[1]}"><i class="iconfont icon-music btm-nav-icon"></i>音乐</md-bottom-bar-item>
-				<md-bottom-bar-item @click.native="doAction('brown', 2)" :class="{'md-active': isActive[2]}"><i class="iconfont icon-book btm-nav-icon"></i>书籍</md-bottom-bar-item>
-				<md-bottom-bar-item @click.native="doAction('indigo', 3)" :class="{'md-active': isActive[3]}"><i class="iconfont icon-photo btm-nav-icon"></i>图片</md-bottom-bar-item>
+			<md-bottom-bar-item @click.native="doAction(0)" :class="{'md-active': isActive[0]}"><i class="iconfont icon-tubiao- btm-nav-icon"></i>电影</md-bottom-bar-item>
+				<md-bottom-bar-item @click.native="doAction(1)" :class="{'md-active': isActive[1]}"><i class="iconfont icon-music btm-nav-icon"></i>音乐</md-bottom-bar-item>
+				<md-bottom-bar-item @click.native="doAction(2)" :class="{'md-active': isActive[2]}"><i class="iconfont icon-book btm-nav-icon"></i>书籍</md-bottom-bar-item>
+				<md-bottom-bar-item @click.native="doAction(3)" :class="{'md-active': isActive[3]}"><i class="iconfont icon-photo btm-nav-icon"></i>图片</md-bottom-bar-item>
 			</md-bottom-bar>
 		</transition>
 		
@@ -31,7 +31,6 @@ import Util from "../../util/util.js"
 import { mapMutations } from 'vuex'
 
 export default {
-  
   mounted: function(){
   	var scrT = document.body.scrollTop || window.scrollY;
   	window.addEventListener("scroll",Util.debounce(function(){
@@ -47,29 +46,26 @@ export default {
   },
   data() {
 	return {
-		title: '',
 		isActive: [true,false,false,false],
 		isScrollDown: false,
 	}
   },
   computed: {
   	theme(){
-  		return this.$store.state.theme
+  		return this.$store.getters.theme
   	},
-  	mapTitle(){
-  		return this.$route.name;
+  	activeRoute(){
+  		return this.$store.state.activeRoute;
+  	}
+  },
+  watch:{
+  	activeRoute(){
+  		this.setActiveNav();
   	}
   },
   methods: {
-    /*...mapMutations([
-  		setTheme: 'THEME_CHANGE'
-  	]),*/
-    doAction(theme, index) {
-      // this.setTheme(theme);
-      this.$store.commit('THEME_CHANGE',{
-      	theme: theme,
-      	index: index
-      });
+    doAction(index) {
+      this.$store.commit('ROUTE_CHANGE',{activeRoute: this.$route.name})
       this.go(index);
       this.setActiveNav()
     },
@@ -91,21 +87,18 @@ export default {
     },
     setActiveNav: function(){
     	/*根据路由显示当前导航按钮*/
-	  	var map = {
+	  	var mapRoute = {
 			"movie": 0,
 			"music": 1,
 			"book":  2,
 			'photo': 3
 		}
-		var routeName = this.$route.name;
 		this.isActive = [false,false,false,false];
-		this.isActive[map[routeName]] = true;
+		this.isActive[mapRoute[this.activeRoute]] = true;
     },
     toggleLeftSidenav() {
       this.$emit("toggleLeftSidenav");
     },
-  
-    
   }
 }
 </script>
@@ -124,7 +117,6 @@ export default {
 		left:0;
 		z-index: 3
 	}
-
 	.slideT-enter-active, .slideT-leave-active {
 	  transition: all .5s
 	}

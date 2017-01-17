@@ -6,16 +6,25 @@
 
 <script>
 import Vue from 'vue'
-import home from './views/home.vue'
+import home from './views/home/home.vue'
 export default {
   name: 'app',
   data(){
     return{
-      
     }
   },
-  methods:{
-
+  computed: {
+    activeRoute(){
+      return this.$route.name
+    }
+  },
+  watch:{
+    activeRoute(){
+      this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute})
+    }
+  },
+  mounted: function(){
+    this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute})
   },
   components: {
     home

@@ -18,38 +18,24 @@
 	</div>
 </template>
 <script>
-import navBar from "../components/common/navbar.vue"
-import movie from "../components/movie/movie.vue"
-import music from "../components/music/music.vue"
+import navBar from "../../components/common/navbar.vue"
+import movie from "../../components/movie/movie.vue"
+import music from "../../components/music/music.vue"
 export default {
 	data(){
 		return{
 		}
 	},
 	computed: {
+		activeRoute(){
+			return this.$store.state.activeRoute
+		},
 		theme(){
-			return this.$store.state.theme
+			return this.$store.getters.theme
 		}
 	},
-	created: function(){
-		this.setActiveTheme();
-	},
-	mounted: function(){
-	},
+
 	methods: {
-		setActiveTheme(){
-			var map = {
-	  			"movie": 'blue',
-	  			"music": 'teal',
-	  			"book": 'brown',
-	  			'photo': 'indigo'
-	  		}
-	  		var routeName = this.$route.name;
-	  		this.$store.commit('THEME_CHANGE',{theme: map[routeName]})
-		},
-		backToTop: function(){
-			
-		},
 		toggleLeftSidenav() {
 	      this.$refs.leftSidenav.toggle();
 	    },

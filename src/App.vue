@@ -33,12 +33,12 @@ export default {
   watch:{
     activeRoute(){
       this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute});
-      this.checkLogin();
+      //this.checkLogin();
     }
   },
   mounted: function(){
     this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute})
-    this.checkLogin();
+    //this.checkLogin();
   },
   methods:{
     checkLogin(){

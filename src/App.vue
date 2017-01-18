@@ -38,7 +38,7 @@ export default {
   },
   mounted: function(){
     this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute})
-    //this.checkLogin();
+    this.checkLogin();
   },
   methods:{
     checkLogin(){

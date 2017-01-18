@@ -26,9 +26,6 @@ export default {
     }
   },
   computed: {
-    login(){
-      return this.$store.state.loginFlag
-    },
     activeRoute(){
       return this.$route.name
     }
@@ -41,18 +38,16 @@ export default {
   },
   mounted: function(){
     this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute})
-    // window.onload才可获取router  
-    window.onload = function(){
-      this.checkLogin();
-    }.bind(this)
+    this.checkLogin();
   },
   methods:{
     checkLogin(){
-      if(this.login){
-        console.log("处于登录状态")
+      if(this.activeRoute !== 'login'){
+        console.log("处于登录状态");
+        this.$store.commit("LOGIN_CHANGE",{loginFlag: true});
       }else{
         console.log("未登录");
-        this.$router.push({name:'login'});
+        // this.$router.push({name:'login'});
       }
     },
     redirect(){

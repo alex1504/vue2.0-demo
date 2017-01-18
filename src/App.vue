@@ -28,26 +28,30 @@ export default {
   computed: {
     activeRoute(){
       return this.$route.name
+    },
+    loginFlag(){
+      return !!localStorage.getItem('loginFlag')
     }
   },
   watch:{
     activeRoute(){
       this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute});
-      //this.checkLogin();
+      this.checkLogin();
     }
   },
   mounted: function(){
     this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute})
-    this.checkLogin();
+    window.onload = function(){
+      this.checkLogin();
+    }.bind(this)
   },
   methods:{
     checkLogin(){
-      if(this.activeRoute !== 'login'){
+      if(Util.isCurrentUser()){
         console.log("处于登录状态");
-        this.$store.commit("LOGIN_CHANGE",{loginFlag: true});
       }else{
         console.log("未登录");
-        // this.$router.push({name:'login'});
+        this.$router.push({name:'login'});
       }
     },
     redirect(){

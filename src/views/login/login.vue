@@ -65,7 +65,7 @@ export default {
 	},
 	computed:{
 		loginFlag(){
-			return this.$store.state.loginFlag   //是否已登录
+			return Util.isCurrentUser()   //是否已登录
 		}
 	},
 	mounted(){ 
@@ -94,7 +94,6 @@ export default {
 			this.logging = true
 
 			AV.User.logIn(username, pass).then(function (loginedUser) {
-				this.$store.commit("LOGIN_CHANGE",{loginFlag: true});
 			    setTimeout(function(){
 			    	this.$router.push({name:'movie'})
 			    }.bind(this),600)

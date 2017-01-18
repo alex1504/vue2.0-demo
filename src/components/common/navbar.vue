@@ -65,7 +65,6 @@ export default {
   methods: {
   	logout(){
   		AV.User.logOut();
-  		this.$store.commit("LOGIN_CHANGE",{loginFlag:false})
   		this.$router.push({name:'login'});
   	},
     doAction(index) {

@@ -14,6 +14,7 @@
 <script>
 import Vue from 'vue'
 import home from './views/home/home.vue'
+import Util from './util/util'
 export default {
   name: 'app',
   data(){
@@ -25,6 +26,9 @@ export default {
     }
   },
   computed: {
+    login(){
+      return this.$store.state.loginFlag
+    },
     activeRoute(){
       return this.$route.name
     }
@@ -32,37 +36,24 @@ export default {
   watch:{
     activeRoute(){
       this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute});
-
-
-      if(!this.checkIsLogined()){
-        this.alert.content = '登录过期，请重新登录';
-        this.openDialog('check');
-        this.redirect();
-      }
+      this.checkLogin();
     }
   },
   mounted: function(){
     this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute})
-
+    // window.onload才可获取router  
     window.onload = function(){
-      if(!this.checkIsLogined()){
-        this.alert.content = '登录过期，请重新登录';
-        this.openDialog('check');
-        this.redirect();
-      }
+      this.checkLogin();
     }.bind(this)
   },
   methods:{
-    checkIsLogined(){
-      var loginTime = localStorage.getItem('loginTime')*1;
-      var token = localStorage.getItem('token');
-      var time = localStorage.getItem('tokenEnabled')*1;
-      var now = Date.now();
-      if(!loginTime || !token || !time) return false;
-      if((loginTime+time) <= now){
-        return false
-      };
-      return true
+    checkLogin(){
+      if(this.login){
+        console.log("处于登录状态")
+      }else{
+        console.log("未登录");
+        this.$router.push({name:'login'});
+      }
     },
     redirect(){
         setTimeout(function(){

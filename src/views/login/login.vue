@@ -1,5 +1,10 @@
 <template>
-	<div id="login">
+	<div id="login" @keyup.enter="login">
+		<transition name="slideT">
+			<div class="login-tip" v-show="tipFlag">
+				用户名：test &nbsp&nbsp&nbsp&nbsp 密码：test
+			</div>
+		</transition>
 		<form novalidate autocomplete="off">
 	      <md-avatar class="md-large">
 		    <img src="./img/login_avatar.jpg" alt="People">
@@ -10,7 +15,7 @@
 		      <md-tooltip>用户名</md-tooltip>
 		    </md-icon>
 		    <label></label>
-		    <md-input type="text" v-model="username" :required='flag'></md-input>
+		    <md-input type="text" v-model="username" :required='inputFlag'></md-input>
 		    <md-icon></md-icon>
 		  </md-input-container>
 
@@ -20,7 +25,7 @@
 		      <md-tooltip>密码</md-tooltip>
 		    </md-icon>
 		    <label></label>
-		    <md-input type="password" v-model="password" :required='flag'></md-input>
+		    <md-input type="password" v-model="password" :required='inputFlag'></md-input>
 		    <md-icon></md-icon>
 		  </md-input-container>
 		  <md-button class="md-raised md-accent" md-theme="whiteForm" @click="login">登录</md-button>
@@ -33,11 +38,17 @@
 		  @close="onClose"
 		  ref="check">
 		</md-dialog-alert>
-
+		
+		<div class="overlay" v-show="logging">
+			<md-spinner :md-size="150" md-indeterminate class="md-accent" md-theme="whiteForm"></md-spinner>
+		</div>
 	</div>
 </template>
 <script>
-import axios from "axios"
+import AV from "../../assets/js/av"
+import Util from "../../util/util"
+import "../../assets/js/initLeanCloud"
+
 export default {
 	data(){
 		return{
@@ -45,18 +56,30 @@ export default {
 				content:' ',
 				ok:'返回'
 			},
-			flag: true,
+			tipFlag: false,
+			inputFlag: true,
 			username: '',
-			password: ''
+			password: '',
+			logging: false                   //登录中
 		}
 	},
-	mounted(){
-		var isLogin = this.checkIsLogined();
-		if(!isLogin) return;
-
+	computed:{
+		loginFlag(){
+			return this.$store.state.loginFlag   //是否已登录
+		}
+	},
+	mounted(){ 
+		this.tipFlag = true;
 		setTimeout(function(){
-	    	this.$router.push({name:'movie'})
-	    }.bind(this),600)
+			this.tipFlag = false;
+		}.bind(this),4000)
+	},
+	beforeRouteEnter (to, from, next) {
+	  next(vm => {
+		  if(vm.loginFlag){
+	        next({name:'movie'})
+	      }
+	  })
 	},
 	methods: {
 		login(){
@@ -67,23 +90,19 @@ export default {
 				username: username,
 				pass: pass
 			})) return;
-			/*请求mock模拟的登录接口*/
-			axios.post('/api/login', {
-			    username: username,
-			    password: pass
-			})
-			.then(function (res) {
-				this.doneLogin(res);
-				this.saveToken(res);
 
+			this.logging = true
+
+			AV.User.logIn(username, pass).then(function (loginedUser) {
+				this.$store.commit("LOGIN_CHANGE",{loginFlag: true});
 			    setTimeout(function(){
 			    	this.$router.push({name:'movie'})
 			    }.bind(this),600)
-
-			}.bind(this))
-			.catch(function (error) {
-			    console.log(error);
-			});
+			}.bind(this), function (error) {
+			    this.alert.content = '用户名和密码不匹配';
+				this.openDialog('check');
+				this.logging = false;
+			}.bind(this));
 		},
 		isEmpty(val){
 			return val === ''
@@ -105,22 +124,6 @@ export default {
 			this.alert.content = res.data.msg;
 			this.alert.ok = '';
 		    this.openDialog('check');
-		},
-		saveToken(res){
-			localStorage.setItem("loginTime", Date.now());
-			localStorage.setItem("token", res.data.token);
-			localStorage.setItem("tokenEnabled", res.data.time);
-		},
-		checkIsLogined(){
-			var loginTime = localStorage.getItem('loginTime')*1;
-			var token = localStorage.getItem('token');
-			var time = localStorage.getItem('tokenEnabled')*1;
-			var now = Date.now();
-			if(!loginTime || !token || !time) return false;
-			if((loginTime+time) <= now){
-				return false
-			};
-			return true
 		},
 		openDialog(ref) {
 	      this.$refs[ref].open();
@@ -183,5 +186,36 @@ export default {
     min-height: 150px;
     border-radius: 150px;
 }
-
+.overlay{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(200,200,200,.6)
+}
+.md-spinner{
+	position: fixed;
+}
+.login-tip{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	color: #fff;
+	background-color: rgba(200,200,200,.8);
+}
+.slideT-enter-active, .slideT-leave-active {
+  transition: all .5s
+}
+.slideT-enter-active{
+	transform: translateY(0);
+}
+.slideT-enter, .slideT-leave-active {
+  transform: translateY(-100%);
+}
 </style>

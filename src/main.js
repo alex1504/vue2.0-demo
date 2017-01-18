@@ -7,6 +7,8 @@ import VueMaterial  from 'vue-material'
 /*mockData在接口尚未完成用于生成假数据，项目上线时不需引入*/
 import mockData from './mock'
 
+
+
 /*全局常量*/
 global.API_PROXY = 'https://bird.ioliu.cn/v1/?url='
 

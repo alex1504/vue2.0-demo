@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
 	state: {
+		loginFlag: false,
 		activeRoute: 'movie'
 	},
 	getters: {
@@ -24,6 +25,9 @@ const store = new Vuex.Store({
 		},
 		[types.ROUTE_CHANGE](state,payload){
 			state.activeRoute = payload.activeRoute
+		},
+		[types.LOGIN_CHANGE](state,payload){
+			state.loginFlag = payload.loginFlag
 		}
 	}
 })

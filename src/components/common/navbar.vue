@@ -8,7 +8,7 @@
 			  </md-button>
 			  <h2 class="md-title" style="flex: 1" v-text="activeRoute"></h2>
 			  <md-button class="md-icon-button">
-			  	<md-icon><i class="iconfont icon-tubiao-"></i></md-icon>
+			  	<md-icon @click.native="logout"><i class="iconfont icon-logout"></i></md-icon>
 			  </md-button>
 			</md-toolbar>
 		</transition>	
@@ -27,9 +27,8 @@
 
 
 <script>
-import Util from "../../util/util.js"
-import { mapMutations } from 'vuex'
-
+import Util from "../../util/util"
+import AV from "../../assets/js/av"
 export default {
   mounted: function(){
   	var scrT = document.body.scrollTop || window.scrollY;
@@ -64,6 +63,11 @@ export default {
   	}
   },
   methods: {
+  	logout(){
+  		AV.User.logOut();
+  		this.$store.commit("LOGIN_CHANGE",{loginFlag:false})
+  		this.$router.push({name:'login'});
+  	},
     doAction(index) {
       this.$store.commit('ROUTE_CHANGE',{activeRoute: this.$route.name})
       this.go(index);
@@ -136,6 +140,9 @@ export default {
 	}
 	.md-bottom-bar.md-shift .md-bottom-bar-item .md-text{
 		opacity:1
+	}
+	.icon-logout{
+		font-size: 24px;
 	}
 </style>
 

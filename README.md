@@ -5,6 +5,7 @@
 
 ## Scanning Qrcode 
 ![qrcode](http://huzerui.com/vue2.0-demo/statics/qrcode.png)
+
 View the demo in your mobilephone by scanning the qrcode above.
 
 ## Plugin of production

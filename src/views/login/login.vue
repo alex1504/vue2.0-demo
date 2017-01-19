@@ -199,7 +199,7 @@ export default {
 }
 .login-tip{
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
   width: 100%;
   min-height: 64px;

@@ -53,7 +53,7 @@ Vue.material.registerTheme('whiteForm', {
   background: 'white'
 })
 
-/*老版本vue-touch不兼容2.0，会报错 Cannot read property 'priority' of undefined，请使用2.0.0-beta.1版本的vue-touch*/
+/*老版本vue-touch不兼容2.0，会报错 Cannot read property 'priority' of undefined，请使用vue-touch@next版本*/
 Vue.use(VueTouch, {name: 'v-touch'})
 
 

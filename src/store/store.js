@@ -12,9 +12,11 @@ const store = new Vuex.Store({
 		theme(state){
 			var mapTheme = {
 	  			"movie": 'blue',
+	  			'movie-detail': 'blue',
 	  			"music": 'teal',
 	  			"book": 'brown',
-	  			'photo': 'indigo'
+	  			'photo': 'indigo',
+	  			'photo-detail': 'indigo'
 	  		}
 			return mapTheme[state.activeRoute]
 		}

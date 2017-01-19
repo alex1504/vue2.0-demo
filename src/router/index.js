@@ -41,6 +41,11 @@ const router = new VueRouter({
     component: require('../components/movie/movie_detail.vue'),
   },
   {
+    path: '/home/photo/detail/:id',
+    name: 'photo-detail',
+    component: require('../components/photo/photo_detail.vue'),
+  },
+  {
     path:'*', redirect: './login'
   }]
 

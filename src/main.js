@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store/store'
 import VueMaterial  from 'vue-material'
+import VueTouch from 'vue-touch'
 
 /*mockData在接口尚未完成用于生成假数据，项目上线时不需引入*/
 import mockData from './mock'
@@ -51,6 +52,9 @@ Vue.material.registerTheme('whiteForm', {
   warn: 'red',
   background: 'white'
 })
+
+/*老版本vue-touch不兼容2.0，会报错 Cannot read property 'priority' of undefined，请使用2.0.0-beta.1版本的vue-touch*/
+Vue.use(VueTouch, {name: 'v-touch'})
 
 
 

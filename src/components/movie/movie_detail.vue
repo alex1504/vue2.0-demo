@@ -43,12 +43,12 @@ export default {
 		return{
 			movieId: this.$route.params.id,
 			movieDetail: {},
-			theme: this.$store.state.theme,
 			spinnerFlag: true
 		}
 	},
 	computed: {
-		
+		/*这里无法获取到$store???*/
+		/*theme: this.$store.getters.theme*/
 	},
 	mounted: function(){
 		this.reqMovieDetail();

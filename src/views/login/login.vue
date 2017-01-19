@@ -198,15 +198,15 @@ export default {
 	position: fixed;
 }
 .login-tip{
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 40px;
-	line-height: 40px;
-	text-align: center;
-	color: #fff;
-	background-color: rgba(200,200,200,.8);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  min-height: 64px;
+  line-height: 64px;
+  text-align: center;
+  background-color: rgba(200,200,200,.8);
+  color: #fff;
 }
 .slideT-enter-active, .slideT-leave-active {
   transition: all .5s

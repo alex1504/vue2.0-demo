@@ -28,9 +28,6 @@ export default {
   computed: {
     activeRoute(){
       return this.$route.name
-    },
-    loginFlag(){
-      return !!localStorage.getItem('loginFlag')
     }
   },
   watch:{
@@ -41,14 +38,15 @@ export default {
   },
   mounted: function(){
     this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute})
-    window.onload = function(){
+    /*window.onload = function(){*/
       this.checkLogin();
-    }.bind(this)
+    /*}.bind(this)*/
   },
   methods:{
     checkLogin(){
       if(Util.isCurrentUser()){
         console.log("处于登录状态");
+        if(this.$route.name === 'login') this.$router.push({name:'movie'});
       }else{
         console.log("未登录");
         this.$router.push({name:'login'});

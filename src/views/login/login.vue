@@ -64,22 +64,13 @@ export default {
 		}
 	},
 	computed:{
-		loginFlag(){
-			return Util.isCurrentUser()   //是否已登录
-		}
+		
 	},
 	mounted(){ 
 		this.tipFlag = true;
 		setTimeout(function(){
 			this.tipFlag = false;
 		}.bind(this),4000)
-	},
-	beforeRouteEnter (to, from, next) {
-	  next(vm => {
-		  if(vm.loginFlag){
-	        next({name:'movie'})
-	      }
-	  })
 	},
 	methods: {
 		login(){

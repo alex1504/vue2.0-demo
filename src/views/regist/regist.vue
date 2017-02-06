@@ -91,7 +91,11 @@ export default {
 			    	this.$router.push({name:'movie'})
 			    }.bind(this),600)
 		  	}.bind(this), (function (error) {
-		  		this.alert.content = '注册失败，请重试';
+		  		if(error.code = '202'){
+		  			this.alert.content = '用户名已存在';
+		  		}else{
+		  			this.alert.content = '注册失败，请重试';
+		  		}
 				this.openDialog('check');
 				this.registing = false;
 		  	}.bind(this)));

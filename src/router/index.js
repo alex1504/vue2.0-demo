@@ -36,6 +36,9 @@ const router = new VueRouter({
     name: 'login', path:'/login',component: require('../views/login/login.vue')
   },  
   {
+    name: 'regist', path:'/regist',component: require('../views/regist/regist.vue')
+  },  
+  {
     path: '/home/movie/detail/:id',
     name: 'movie-detail',
     component: require('../components/movie/movie_detail.vue'),

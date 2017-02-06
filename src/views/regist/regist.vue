@@ -1,13 +1,9 @@
 <template>
-	<div id="login" @keyup.enter="login">
-		<transition name="slideT">
-			<div class="login-tip" v-show="tipFlag">
-				测试账号：&nbsp&nbsp用户名：test &nbsp&nbsp&nbsp 密码：test
-			</div>
-		</transition>
+	<div id="regist" @keyup.enter="regist">
 		<form novalidate autocomplete="off">
-	      <md-avatar class="md-large">
-		    <img src="./img/login_avatar.jpg" alt="People">
+			<p style="margin-bottom:64px;color:#666;">已有账号，直接<a style="color:#f44336;font-size: 16px;" @click="goLogin">登录</a></p>
+		  <md-avatar class="md-large">
+		    <img src="./img/regist_avatar.jpg" alt="People">
 		  </md-avatar>
 		  <md-input-container md-theme="whiteForm">
 		    <md-icon>
@@ -18,20 +14,19 @@
 		    <md-input type="text" v-model="username" :required='inputFlag'></md-input>
 		    <md-icon></md-icon>
 		  </md-input-container>
-
+		
 		  <md-input-container md-theme="whiteForm">
 		    <md-icon>
 		      <i class="iconfont icon-password"></i>
 		      <md-tooltip>密码</md-tooltip>
 		    </md-icon>
 		    <label></label>
-		    <md-input type="password" v-model="password" :required='inputFlag'></md-input>
+		    <md-input :type="isHide ? 'password' : ''" v-model="password" :required='inputFlag'></md-input>
 		    <md-icon></md-icon>
 		  </md-input-container>
-		  <md-button class="md-raised md-accent" md-theme="whiteForm" @click="login">登录</md-button>
-		  <md-button class="md-raised md-warn" md-theme="whiteForm" @click="goRegist">注册</md-button>
+		  <md-button class="md-raised md-warn" md-theme="whiteForm" @click="regist">注册</md-button>
 		</form>
-
+		
 		<md-dialog-alert
 		  :md-content="alert.content"
 		  :md-ok-text="alert.ok"
@@ -40,9 +35,9 @@
 		  ref="check">
 		</md-dialog-alert>
 		
-		<div class="overlay" v-show="logging">
+		<div class="overlay" v-show="registing">
 			<md-spinner :md-size="150" md-indeterminate class="md-accent" md-theme="whiteForm"></md-spinner>
-		</div>
+		</div> 
 	</div>
 </template>
 <script>
@@ -57,11 +52,12 @@ export default {
 				content:' ',
 				ok:'返回'
 			},
+			isHide: false,
 			tipFlag: false,
 			inputFlag: true,
 			username: '',
 			password: '',
-			logging: false                   //登录中
+			registing: false                   //注册中
 		}
 	},
 	computed:{
@@ -74,7 +70,7 @@ export default {
 		}.bind(this),4000)
 	},
 	methods: {
-		login(){
+		regist(){
 			var username = this.username;
 			var pass = this.password;
 			/*验证用户名和密码是否为空*/
@@ -83,20 +79,31 @@ export default {
 				pass: pass
 			})) return;
 
-			this.logging = true
+			this.registing = true
 
-			AV.User.logIn(username, pass).then(function (loginedUser) {
-			    setTimeout(function(){
+			var user = new AV.User();
+		  	user.setUsername(username);
+		  	user.setPassword(pass);
+		  	user.signUp().then(function (loginedUser) {
+		  		this.registing = false;
+		  		this.doneRegist();
+		  		setTimeout(function(){
 			    	this.$router.push({name:'movie'})
 			    }.bind(this),600)
-			}.bind(this), function (error) {
-			    this.alert.content = '用户名和密码不匹配';
+		  	}.bind(this), (function (error) {
+		  		this.alert.content = '注册失败，请重试';
 				this.openDialog('check');
-				this.logging = false;
-			}.bind(this));
+				this.registing = false;
+		  	}.bind(this)));
 		},
 		isEmpty(val){
-			return val === ''
+			return val === '';
+		},
+		isValidUserName(val){
+			return /^[a-zA-Z0-9_]+$/.test(val);
+		},
+		isValidPassword(val){
+			return /^[A-Za-z0-9_-]{4,}$/.test(val);
 		},
 		check(obj){
 			if(this.isEmpty(obj.username)){
@@ -109,10 +116,20 @@ export default {
 				this.openDialog('check');
 				return false;
 			}
+			if(!this.isValidUserName(obj.username)){
+				this.alert.content = '用户名不能含有除字母或数字或下划线之外的任何字符';
+				this.openDialog('check');
+				return false;
+			}
+			if(!this.isValidPassword(obj.pass)){
+				this.alert.content = '密码必须是至少4位的字母或数字结合';
+				this.openDialog('check');
+				return false;
+			}
 			return true
 		},
-		doneLogin(res){
-			this.alert.content = res.data.msg;
+		doneRegist(){
+			this.alert.content = '注册成功';
 			this.alert.ok = '';
 		    this.openDialog('check');
 		},
@@ -128,14 +145,14 @@ export default {
 	    onClose(type) {
 	      console.log('Closed', type);
 	    },
-	    goRegist(){
-	    	this.$router.push({name:'regist'});
+	    goLogin(){
+	    	this.$router.push({name:'login'});
 	    }
 	}
 }
 </script>
 <style lang="scss" scoped>
-#login{
+#regist{
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
@@ -143,12 +160,13 @@ export default {
 	justify-content: center;
 	align-items: center;
 	background: #fff;
-	background: url('./img/login_bg.jpg') no-repeat center center; 
+	background: url('./img/regist_bg.jpg') no-repeat center center; 
 	background-size: cover;
 	form{
 		width: 70%;
 	}
 }
+
 .md-theme-whiteForm.md-input-container.md-input-focused input{
 	text-shadow: 0 0 0 rgba(255,255,255,.87);
 }

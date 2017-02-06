@@ -48,7 +48,8 @@ export default {
         console.log("处于登录状态");
         if(this.$route.name === 'login') this.$router.push({name:'movie'});
       }else{
-        console.log("未登录");
+        console.log(this.$router.name);
+        if(this.$route.name === 'regist') return;
         this.$router.push({name:'login'});
       }
     },

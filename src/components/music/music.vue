@@ -74,6 +74,7 @@ export default {
   mounted:function(){
   	axios.get(API_PROXY+'http://music.163.com/api/playlist/detail?id=98833242')
 	  .then(function (res) {
+	  	console.log(res);
 	    res.data.result.tracks.forEach((music,index)=>{
 	    	this.playLists.push(music);
 	    	this.state.push({

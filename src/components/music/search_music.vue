@@ -45,7 +45,10 @@ export default {
 			padding-left: 40px;
 		}
 	}
-
+	.icon-search{
+		position: relative;
+		top: -4px;
+	}
 </style>
 
 

@@ -38,9 +38,9 @@ export default {
   },
   mounted: function(){
     this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute})
-    /*window.onload = function(){*/
+    window.onload = function(){
       this.checkLogin();
-    /*}.bind(this)*/
+    }.bind(this)
   },
   methods:{
     checkLogin(){

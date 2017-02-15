@@ -17,7 +17,7 @@
         </div>  
 
         <md-button class="md-icon-button md-list-action">
-          <span class="item-text">详情</span>
+          <md-icon class="md-brown"><i class="iconfont icon-chakan"></i></md-icon>
         </md-button>
 
         <md-divider class="md-inset"></md-divider>

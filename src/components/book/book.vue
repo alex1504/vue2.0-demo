@@ -23,7 +23,7 @@
         <md-divider class="md-inset"></md-divider>
       </md-list-item>
     </md-list>
-    <md-spinner :md-size="60" md-indeterminate v-show='flag'></md-spinner>
+    <md-spinner :class="spinnerClass" :md-size="60" md-indeterminate v-show='flag'></md-spinner>
 </div>
 	
 </template>
@@ -43,7 +43,9 @@ export default {
   	 }
   },
   computed:{
-
+    spinnerClass(){
+      return this.$store.getters.SPINNER_CLASS
+    }
   },
   mounted:function(){
     this.loadMore()

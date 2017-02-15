@@ -8,7 +8,7 @@
         </div>
       </transition>
     </div>
-    <md-spinner :md-size="60" md-indeterminate v-show="spinnerFlag"></md-spinner>
+    <md-spinner :class="spinnerClass" :md-size="60" md-indeterminate v-show="spinnerFlag"></md-spinner>
   </div>
 </div>
 	
@@ -26,6 +26,11 @@ export default {
       photoLists: [],
       busy: false,
       page:1
+    }
+  },
+  computed:{
+    spinnerClass(){
+      return this.$store.getters.SPINNER_CLASS
     }
   },
   mounted:function(){

@@ -9,7 +9,7 @@ const store = new Vuex.Store({
 		activeRoute: 'movie'
 	},
 	getters: {
-		theme(state){
+		[types.THEME](state){
 			var mapTheme = {
 	  			"movie": 'blue',
 	  			'movie-detail': 'blue',
@@ -19,12 +19,12 @@ const store = new Vuex.Store({
 	  			'photo-detail': 'indigo'
 	  		}
 			return mapTheme[state.activeRoute]
+		},
+		[types.SPINNERCLASS](state,getters){
+			return "md-theme-"+getters[[types.THEME]]
 		}
 	},
 	mutations:{
-		[types.THEME_CHANGE](state,payload){
-			state.theme = payload.theme
-		},
 		[types.ROUTE_CHANGE](state,payload){
 			state.activeRoute = payload.activeRoute
 		},

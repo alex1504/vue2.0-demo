@@ -39,7 +39,7 @@
 	</md-list> 
 
 	
-	<md-spinner class="md-theme-teal" :md-size="60" md-indeterminate v-show='spinnerFlag'></md-spinner>
+	<md-spinner :class="spinnerClass" :md-size="60" md-indeterminate v-show='spinnerFlag'></md-spinner>
 </div>
 	
 </template>
@@ -67,7 +67,9 @@ export default {
 	};
   },
   computed:{
-
+    spinnerClass(){
+      return this.$store.getters.SPINNER_CLASS
+    }
   },
   mounted:function(){
   	axios.get(API_PROXY+'http://music.163.com/api/playlist/detail?id=98833242')

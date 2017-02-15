@@ -51,7 +51,7 @@ export default {
   },
   computed: {
   	theme(){
-  		return this.$store.getters.theme
+  		return this.$store.getters.THEME_COLOR
   	},
   	activeRoute(){
   		return this.$store.state.activeRoute;

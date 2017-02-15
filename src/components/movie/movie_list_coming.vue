@@ -19,7 +19,7 @@
             <md-divider class="md-inset"></md-divider>
         </md-list-item>
     </md-list>
-    <md-spinner :md-size="60" md-indeterminate v-show='spinnerFlag'></md-spinner>
+    <md-spinner :class="spinnerClass" :md-size="60" md-indeterminate v-show='spinnerFlag'></md-spinner>
   </div> 
 </div>
 	
@@ -35,6 +35,11 @@ export default {
       spinnerFlag: true,
       movieLists: [],
       busy: false
+    }
+  },
+  computed:{
+    spinnerClass(){
+      return this.$store.getters.SPINNER_CLASS
     }
   },
   mounted:function(){

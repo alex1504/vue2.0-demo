@@ -1,3 +1,4 @@
+import AV from "../assets/js/av"
 /*防抖动函数*/
 function debounce(fn, delay, options) {
     if(options && options.immediate === true){
@@ -33,7 +34,16 @@ function getToken(num=10){
      }
      return str
 }
+function isCurrentUser () {
+  var currentUser = AV.User.current();
+  if (currentUser) {
+    return true;
+  }
+  return false;
+}
+
 export default {
 	debounce: debounce,
-    getToken: getToken
+    getToken: getToken,
+    isCurrentUser:isCurrentUser
 }

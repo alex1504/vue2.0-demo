@@ -1,5 +1,6 @@
 <template>
 	<div id="home">
+		<!-- <audio :src="audioSrc" id="audio"></audio> -->
 		<md-theme :md-name="theme">
 			<navBar @toggleLeftSidenav="toggleLeftSidenav"></navBar>
 			<md-sidenav class="md-left" ref="leftSidenav" @open="open('Left')" @close="close('Left')">
@@ -11,12 +12,8 @@
 			    <p class="soucecode">SouceCode:</p>
 			    <p><a href="https://github.com/alex1504/vue2.0-demo">https://github.com/alex1504/vue2.0-demo</a></p>
 			</md-sidenav>
-			<keep-alive>
 				<router-view></router-view>
-			</keep-alive>
 		</md-theme>
-
-		
 	</div>
 </template>
 <script>
@@ -30,12 +27,11 @@ export default {
 		}
 	},
 	mounted(){
-		
 	},
 	computed: {
 		theme(){
-			return this.$store.getters.theme
-		}
+			return this.$store.getters.THEME_COLOR
+		},
 	},
 	methods: {
 		toggleLeftSidenav() {

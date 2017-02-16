@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <audio :src="audioSrc" id="audio"></audio>
     <router-view></router-view>
     <md-dialog-alert
       :md-content="alert.content"
@@ -14,55 +15,58 @@
 <script>
 import Vue from 'vue'
 import home from './views/home/home.vue'
+import Util from './util/util'
+import Store from './assets/js/storage.js'
 export default {
   name: 'app',
   data(){
     return{
       alert:{
         content:' ',
-        ok:'ok'
+        ok:'ok',
       },
+      audioEle: document.querySelector("#audio")
     }
   },
   computed: {
     activeRoute(){
       return this.$route.name
+    },
+    audioSrc(){
+      return this.$store.state.audioSrc
     }
   },
   watch:{
     activeRoute(){
       this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute});
-
-
-      if(!this.checkIsLogined()){
-        this.alert.content = '登录过期，请重新登录';
-        this.openDialog('check');
-        this.redirect();
-      }
+      this.checkLogin();
+    },
+    audioSrc(){
+      console.log(this.audioEle)
     }
   },
   mounted: function(){
+    this.checkLocalStorageEnabled();
     this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute})
-
     window.onload = function(){
-      if(!this.checkIsLogined()){
-        this.alert.content = '登录过期，请重新登录';
-        this.openDialog('check');
-        this.redirect();
-      }
+      this.checkLogin();
     }.bind(this)
   },
   methods:{
-    checkIsLogined(){
-      var loginTime = localStorage.getItem('loginTime')*1;
-      var token = localStorage.getItem('token');
-      var time = localStorage.getItem('tokenEnabled')*1;
-      var now = Date.now();
-      if(!loginTime || !token || !time) return false;
-      if((loginTime+time) <= now){
-        return false
-      };
-      return true
+    checkLocalStorageEnabled(){
+      if (!Store.enabled) {
+        alert('您的浏览器不支持localStorage，可能会影响体验')
+      }
+    },
+    checkLogin(){
+      if(Util.isCurrentUser()){
+        console.log("处于登录状态");
+        if(this.$route.name === 'login') this.$router.push({name:'movie'});
+      }else{
+        console.log(this.$router.name);
+        if(this.$route.name === 'regist') return;
+        this.$router.push({name:'login'});
+      }
     },
     redirect(){
         setTimeout(function(){
@@ -80,6 +84,12 @@ export default {
     },
     onClose(type) {
       this.$router.push({name:'login'})
+    },
+    play(){
+      this.audioEle.play()
+    },
+    pause(){
+      this.audioEle.pause()
     }
   },
   components: {

@@ -43,19 +43,19 @@ export default {
 		return{
 			movieId: this.$route.params.id,
 			movieDetail: {},
-			theme: this.$store.state.theme,
 			spinnerFlag: true
 		}
 	},
 	computed: {
-		
+		/*这里无法获取到$store???*/
+		/*theme: this.$store.getters.theme*/
 	},
 	mounted: function(){
 		this.reqMovieDetail();
 	},
 	methods: {
 		reqMovieDetail(){
-			axios.get(API_PROXY+'https://api.douban.com/v2/movie/subject/1292052')
+			axios.get(API_PROXY+'https://api.douban.com/v2/movie/subject/'+this.movieId)
 		        .then(function(res) {
 		        	console.log(res);
 		          this.movieDetail = res.data.id ? res.data : JSON.parse(res.request.response);

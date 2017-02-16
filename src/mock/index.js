@@ -5,7 +5,7 @@ var login = Mock.mock("/api/login",{
   "msg":"登录成功",          //登录成功过信息
   "code": 0,                 //正常
   "token": Util.getToken(),            
-  "time": 30000              //有效期30秒 
+  "time": 240000              //有效期4分钟
 })
 
 /*API-movie*/

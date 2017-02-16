@@ -3,17 +3,18 @@
   <div class="j-content">
 		<div class="m-gallery">
       <transition-group name="fade" tag="div">
-        <div v-for="photo in photoLists" :key="photo" class="item">
+        <div v-for="(photo,index) in photoLists" :key="photo" class="item" @click="getPhotoDetail(index)">
             <img class="animated bounceIn" :src="photo.url">
         </div>
       </transition>
     </div>
-    <md-spinner :md-size="60" md-indeterminate v-show="spinnerFlag"></md-spinner>
+    <md-spinner :class="spinnerClass" :md-size="60" md-indeterminate v-show="spinnerFlag"></md-spinner>
   </div>
 </div>
 	
 </template>
 <script>
+
 import axios from "axios"
 export default {
   data(){
@@ -25,6 +26,11 @@ export default {
       photoLists: [],
       busy: false,
       page:1
+    }
+  },
+  computed:{
+    spinnerClass(){
+      return this.$store.getters.SPINNER_CLASS
     }
   },
   mounted:function(){
@@ -48,6 +54,12 @@ export default {
     }
   },
   methods: {
+    getPhotoDetail(index){
+      this.$router.push({ name: 'photo-detail', params: {id:this.photoLists[index]._id}});
+      // 存储一份到本地，进入图片详情页后刷新从本地获取
+      var photoData = {'index':index, 'photoLists': this.photoLists};
+      localStorage.setItem('photoData', JSON.stringify(photoData));
+    },
     isTouchScreenBtm: function(e){
       var winH = window.innerHeight || document.documentElement.clientHeight;
       var navH = document.querySelector(".top-nav").offsetHeight * 2;
@@ -60,6 +72,42 @@ export default {
         return false
       }
     },
+    /*图片预加载*/
+    preload: function(arr) {
+        var newimages = [], loadedimages = 0;
+        var postaction = function(){};
+        var arr = (typeof arr != "object") ? [arr] : arr;
+
+        function imageloadpost() {
+            loadedimages++;
+            if (loadedimages == arr.length) {
+                //alert("图片已经加载完成");
+                postaction(newimages);
+            }
+        }
+
+        for (var i = 0; i < arr.length; i++) {
+            newimages[i] = new Image();
+            newimages[i].src = arr[i];
+
+            if(newimages[i].complete){
+              imageloadpost();
+            }else{
+              newimages[i].onload = function() {
+                  imageloadpost();
+              }
+              newimages[i].onerror = function() {
+                  imageloadpost();
+              }
+            }
+        }
+
+        return {
+            done: function(f) {
+                postaction = f || postaction;
+            }
+        }
+    },
     loadMore: function() {
         if(this.busy){
            return;
@@ -69,8 +117,18 @@ export default {
         this.spinnerFlag = true;
         return axios.get('https://gank.io/api/data/福利/10/'+this.page)
         .then(function(res) {
+          /*var arr = []
           res.data.results.forEach(photo=>{
-            this.photoLists.push(photo)
+            arr.push(photo.url)
+          })
+          this.preload(arr).done(function(){
+            res.data.results.forEach(photo=>{
+              this.photoLists.push(photo);
+            })
+          }.bind(this))*/
+          res.data.results.forEach(photo=>{
+
+              this.photoLists.push(photo);
           })
           this.busy = false;
           this.spinnerFlag = false;
@@ -82,6 +140,7 @@ export default {
       
       }
     }
+    
 }
 </script>
 <style scoped lang="scss">
@@ -116,7 +175,8 @@ export default {
       height: 100px;
       min-width: 100%;     
       max-width: 100%;
-      object-fit: cover;      //使图片等比拉伸，可能会被裁减
+/*       background-color: red;
+ */      object-fit: cover;      //使图片等比拉伸，可能会被裁减
       vertical-align: bottom;
   }
   @media (max-width: 1000px) and (min-width: 900px) {

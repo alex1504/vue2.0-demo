@@ -2,24 +2,24 @@
 <div id="movielist-comming" class="j-container">
    <div class="j-content">
     <md-list class="custom-list md-triple-line">
-        <md-list-item v-for="movie in movieLists">
-          <md-avatar>
-            <img :src="movie.images.large" alt="People">
-          </md-avatar>
-  
-          <div class="md-list-text-container">
-            <span>{{movie.title}}</span>
-            <p><span v-for="genre in movie.genres">{{genre}}</span>({{movie.year}})(平均{{movie.rating.average}}分)</p>
-          </div>
-  
-          <md-button class="md-icon-button md-list-action">
-            <md-icon class="md-primary">详情</md-icon>
-          </md-button>
-  
-          <md-divider class="md-inset"></md-divider>
+        <md-list-item v-for="movie in movieLists" @click="getMovieDetail(movie.id)">
+            <md-avatar>
+              <img :src="movie.images.large" alt="People">
+            </md-avatar>
+    
+            <div class="md-list-text-container">
+              <span>{{movie.title}}</span>
+              <p><span v-for="genre in movie.genres">{{genre}}</span>({{movie.year}})(平均{{movie.rating.average}}分)</p>
+            </div>
+    
+            <md-button class="md-icon-button md-list-action">
+              <md-icon class="md-primary"><i class="iconfont icon-chakan"></i></md-icon>
+            </md-button>
+    
+            <md-divider class="md-inset"></md-divider>
         </md-list-item>
     </md-list>
-    <md-spinner :md-size="60" md-indeterminate v-show='spinnerFlag'></md-spinner>
+    <md-spinner :class="spinnerClass" :md-size="60" md-indeterminate v-show='spinnerFlag'></md-spinner>
   </div> 
 </div>
 	
@@ -35,6 +35,11 @@ export default {
       spinnerFlag: true,
       movieLists: [],
       busy: false
+    }
+  },
+  computed:{
+    spinnerClass(){
+      return this.$store.getters.SPINNER_CLASS
     }
   },
   mounted:function(){
@@ -56,6 +61,9 @@ export default {
     }
   },
   methods: {
+    getMovieDetail(id){
+      this.$router.push({ name: 'movie-detail', params: { id: id }})
+    },
     isTouchScreenBtm: function(e){
       var winH = window.innerHeight || document.documentElement.clientHeight;
       var navH = document.querySelector(".top-nav").offsetHeight * 2;
@@ -75,7 +83,7 @@ export default {
         var start = this.movieLists.length;
         this.busy = true;
         this.spinnerFlag = true;
-        axios.get(API_PROXY+'https://api.douban.com/v2/movie/coming_soon?count=5&start='+start)
+        axios.get(API_PROXY+'https://api.douban.com/v2/movie/coming_soon?count=10&start='+start)
   		  .then(function(res) {
   		    res.data.subjects.forEach(movie=>{
   		    	this.movieLists.push(movie);

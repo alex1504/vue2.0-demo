@@ -6,7 +6,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 	state: {
 		loginFlag: false,
-		activeRoute: 'movie'
+		activeRoute: 'movie',
+		audioSrc: ''
 	},
 	getters: {
 		[types.THEME](state){
@@ -14,6 +15,8 @@ const store = new Vuex.Store({
 	  			"movie": 'blue',
 	  			'movie-detail': 'blue',
 	  			"music": 'teal',
+	  			"music-list": 'teal',
+	  			"music-play": 'teal',
 	  			"book": 'brown',
 	  			'photo': 'indigo',
 	  			'photo-detail': 'indigo'
@@ -25,6 +28,9 @@ const store = new Vuex.Store({
 		}
 	},
 	mutations:{
+		[types.AUDIO_CHANGE](state,payload){
+			state.audioSrc = payload.audioSrc
+		},
 		[types.ROUTE_CHANGE](state,payload){
 			state.activeRoute = payload.activeRoute
 		},

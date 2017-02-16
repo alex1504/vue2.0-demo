@@ -1,0 +1,69 @@
+/* 通用 */
+html,body{
+	width: 100%;
+	height: 100%;
+}
+
+.j-container::-webkit-scrollbar, body::-webkit-scrollbar{
+    display:none
+}
+.j-container{
+    -webkit-overflow-scrolling: touch;
+}
+/* 颜色 */
+.black{
+	color: black
+}
+
+
+/* Vue-material 组件 */
+.md-spinner{
+	margin: 10px auto 0;
+}
+.md-dialog-container.md-active .md-dialog{
+	background: #fff;
+}
+.md-card{
+	width: 80%;
+	margin: 10px auto;
+}
+.md-sidenav-content{
+	background-color: #fff;
+}
+.md-toolbar{
+	background-color: #2196f3;
+	color: #fff;
+}
+.md-tabs .md-tab{
+    padding:0;
+}
+.md-list{
+  margin: 0 auto;
+  padding: 0;
+}
+
+.md-theme-blue a:not(.md-button){
+    color:blue;
+}
+
+
+
+
+
+/* 图标 */
+.iconfont{
+	width: 24px;
+    min-width: 24px;
+    height: 24px;
+    min-height: 24px;
+    margin: auto;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -ms-flex-align: center;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    fill: currentColor;
+    vertical-align: middle;
+    font-size: 18px;
+}

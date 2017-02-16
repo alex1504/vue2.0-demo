@@ -24,7 +24,7 @@ export default {
   },
   computed:{
     theme(){
-      return this.$store.getters.theme
+      return this.$store.getters.THEME_COLOR
     },
     index(){
       return this.localData.index

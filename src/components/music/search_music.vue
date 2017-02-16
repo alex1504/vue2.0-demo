@@ -35,6 +35,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+	#searchBar{
+		height:38px;
+	}
 	.md-input-container{
 		margin: 0;
 		top: -10px;
@@ -49,6 +52,7 @@ export default {
 		position: relative;
 		top: -4px;
 	}
+	
 </style>
 
 

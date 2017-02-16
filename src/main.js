@@ -12,7 +12,7 @@ import mockData from './mock'
 
 /*全局常量*/
 global.API_PROXY = 'https://bird.ioliu.cn/v1/?url='
-
+/*global.RESOURCE_PATH =  'http://'+window.location.host+"/statics"*/
 
 /*注册主题*/
 Vue.use(VueMaterial)

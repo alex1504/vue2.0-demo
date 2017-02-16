@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <audio :src="audioSrc" id="audio"></audio>
     <router-view></router-view>
     <md-dialog-alert
       :md-content="alert.content"
@@ -15,34 +16,48 @@
 import Vue from 'vue'
 import home from './views/home/home.vue'
 import Util from './util/util'
+import Store from './assets/js/storage.js'
 export default {
   name: 'app',
   data(){
     return{
       alert:{
         content:' ',
-        ok:'ok'
+        ok:'ok',
       },
+      audioEle: document.querySelector("#audio")
     }
   },
   computed: {
     activeRoute(){
       return this.$route.name
+    },
+    audioSrc(){
+      return this.$store.state.audioSrc
     }
   },
   watch:{
     activeRoute(){
       this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute});
       this.checkLogin();
+    },
+    audioSrc(){
+      console.log(this.audioEle)
     }
   },
   mounted: function(){
+    this.checkLocalStorageEnabled();
     this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute})
     window.onload = function(){
       this.checkLogin();
     }.bind(this)
   },
   methods:{
+    checkLocalStorageEnabled(){
+      if (!Store.enabled) {
+        alert('您的浏览器不支持localStorage，可能会影响体验')
+      }
+    },
     checkLogin(){
       if(Util.isCurrentUser()){
         console.log("处于登录状态");
@@ -69,6 +84,12 @@ export default {
     },
     onClose(type) {
       this.$router.push({name:'login'})
+    },
+    play(){
+      this.audioEle.play()
+    },
+    pause(){
+      this.audioEle.pause()
     }
   },
   components: {

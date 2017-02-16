@@ -44,6 +44,16 @@ const router = new VueRouter({
     component: require('../components/movie/movie_detail.vue'),
   },
   {
+    path: '/home/music/list/:id',
+    name: 'music-list',
+    component: require('../components/music/music_list.vue'),
+  },
+  {
+    path: '/home/music/list/:id/song/:id',
+    name: 'music-play',
+    component: require('../components/music/music_play.vue'),
+  },
+  {
     path: '/home/photo/detail/:id',
     name: 'photo-detail',
     component: require('../components/photo/photo_detail.vue'),

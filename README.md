@@ -1,10 +1,10 @@
 # vue2.0-demo
 > A simple Vue.js project
 
-![demo](http://huzerui.com/vue2.0-demo/statics/desc-1.gif)
+![demo](http://huzerui.com/vue2.0-demo/statics/img/readme/desc-1.gif)
 
 ## Scanning Qrcode 
-![qrcode](http://huzerui.com/vue2.0-demo/statics/qrcode.png)
+![qrcode](http://huzerui.com/vue2.0-demo/statics/img/readme/qrcode.png)
 
 View the demo in your mobilephone by scanning the qrcode above.
 

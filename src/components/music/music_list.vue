@@ -5,11 +5,11 @@
 		<backToTop @clickBack="backToTop"></backToTop>
 		<search @searchSong="showResults"></search>
 		<md-list v-if="flag">
-		    <md-list-item v-for="(music, index) of playLists" @click='play(index)'>
+		    <md-list-item v-for="(music, index) of playLists" @click='goPlay(index)'>
 		      <md-avatar>
 		        <img :src="music.album.picUrl" alt="People">
 		      </md-avatar>
-		      <span>{{music.name | getShortName}}/{{music.duration | getDuration}}</span>
+		      <span>{{music.name | getShortName}}/<span id="duration">{{music.duration | formatTime}}</span></span>
 		      <md-button class="md-icon-button md-list-action">
 		      	<md-icon class="md-primary md-theme-teal"><i class="iconfont icon-play"></i></md-icon>
 		      </md-button>
@@ -18,7 +18,7 @@
 		   
 		</md-list> 
 		<md-list v-if="!flag">
-		    <md-list-item v-for="(music, index) of searchLists" @click='togglePlay(index)'>
+		    <md-list-item v-for="(music, index) of searchLists" @click='goPlay(index)'>
 		      <md-avatar>
 		        <img :src="music.album.picUrl" alt="People">
 		      </md-avatar>
@@ -73,24 +73,20 @@ export default {
 		}
 		return mapAlbum[this.id]
     },
-    
+    activeLists(){
+    	return this.$store.state.music.activeLists
+    },
+    activeListsId(){
+    	return this.$store.state.music.activeListsId
+    }
   },
   mounted:function(){
-
-  	var localList = Store.get('music_list_'+this.$route.params.id);
-  	if( typeof localList !== "undefined" ){
-  		this.playLists = localList;
+  	console.log(typeof this.activeLists !== "undefined" && this.activeLists !== null && this.activeListsId === this.id)
+  	if(typeof this.activeLists !== "undefined" && this.activeLists !== null && this.activeListsId === this.id){
+  		this.playLists = this.activeLists;
   		return;
   	}
-  	axios.get(API_PROXY+'http://music.163.com/api/playlist/detail?id='+this.id)
-	  .then(function (res) {
-	  	console.log(res)	
-	  	this.playLists = res.data.result.tracks;
-	  	Store.set('music_list_'+this.$route.params.id, res.data.result.tracks);
-	  }.bind(this))
-	  .catch(function (error) {
-	    console.log(error);
-	  });
+  	this.getLists();
   },
   filters:{
   	getShortName(val){
@@ -98,7 +94,7 @@ export default {
   			return val.slice(0, 10)+"...";
   		return val;
   	},
-  	getDuration(val){
+  	formatTime(val){
   		var m = Math.floor(val/1000/60).toString();
   		var s = Math.round(val/1000%60).toString();
   		m = (m.length == 1) ? 0+m : m;
@@ -115,14 +111,63 @@ export default {
     		this.flag = true
     	}
     },
+    formatTime(val){
+  		var m = Math.floor(val/1000/60).toString();
+  		var s = Math.round(val/1000%60).toString();
+  		m = (m.length == 1) ? 0+m : m;
+  		s = (s.length == 1) ? 0+s : s;
+  		return m+":"+s;
+  	},
+    getLists(){
+		axios.get(API_PROXY+'http://music.163.com/api/playlist/detail?id='+this.id)
+		  .then(function (res) {
+		  	this.playLists = res.data.result.tracks;
+
+		  	// 提交MUSIC_SONG_CHANGE的mutation
+		  	this.$store.commit('MUSIC_LISTS_CHANGE', {
+		  		'activeLists':res.data.result.tracks,
+		  		'activeListsId': this.id
+		  	});
+
+		  	// 存储当前列表到本地
+		  	Store.set('music_list_'+this.$route.params.id, res.data.result.tracks);
+
+		  }.bind(this))
+		  .catch(function (error) {
+		    console.log(error);
+		  });
+    },
     showList: function(){
     	this.flag = true
     },
     backToTop(){
     	document.body.scrollTop = 0;
     },
-    play(index){
-    	this.$store.commit('AUDIO_CHANGE',{audioSrc: this.playLists[index].mp3Url})
+    goPlay(index){
+    	/*存储当前歌曲数据到本地*/
+    	Store.set("activeSong", {
+    		albumName: this.playLists[index].album.name,
+    		avatarUrl: this.playLists[index].album.picUrl,
+    		name: this.playLists[index].name,
+    		singer: this.playLists[index].artists[0].name,
+    		duration: this.formatTime(this.playLists[index].duration),
+    		activeIndex: index
+    	})
+
+    	/*跳转*/
+    	this.$router.push({name:'music-play',params:{
+    		id: this.playLists[index].id}
+    	})
+
+    	/*提交MUSIC_SONG_CHANGE的mutation*/
+    	this.$store.commit('MUSIC_SONG_CHANGE',{
+    		albumName: this.playLists[index].album.name,
+    		avatarUrl: this.playLists[index].album.picUrl,
+    		activeSrc: this.playLists[index].mp3Url,
+    		activeIndex: index,
+    		duration: this.playLists[index].duration,
+    		playing: true
+    	})
     }
     
   }

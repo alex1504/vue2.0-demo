@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <audio :src="audioSrc" id="audio"></audio>
+    <audio :src="audioSrc" id="music" autoplay></audio>
     <router-view></router-view>
     <md-dialog-alert
       :md-content="alert.content"
@@ -25,7 +25,6 @@ export default {
         content:' ',
         ok:'ok',
       },
-      audioEle: document.querySelector("#audio")
     }
   },
   computed: {
@@ -33,24 +32,52 @@ export default {
       return this.$route.name
     },
     audioSrc(){
-      return this.$store.state.audioSrc
-    }
+      return this.$store.state.music.activeSong.activeSrc
+    },
+    audioDuration(){
+      return this.$store.state.music.activeSong.duration
+    },
+    playing(){
+      return this.$store.state.music.playing
+    },
+
   },
   watch:{
     activeRoute(){
       this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute});
       this.checkLogin();
     },
-    audioSrc(){
-      console.log(this.audioEle)
+    playing(val){
+      if(val){
+        document.getElementById("music").play()
+      }else{
+        document.getElementById("music").pause()
+      }
     }
   },
   mounted: function(){
+    var that = this;
+
+    // 测试localStorage是否可用
     this.checkLocalStorageEnabled();
+
+    // 刷新进行路由检测跳转
     this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute})
+
+    // 验证是否登录
     window.onload = function(){
       this.checkLogin();
     }.bind(this)
+
+    // 监听audio播放时间
+    document.getElementById("music").addEventListener("timeupdate", function(){
+      var curTime = this.currentTime;
+      that.$store.commit("PLAY_TIME_CHANGE",{
+        curTime: that.formatTime(curTime),
+        activePercent: that.getPercent(curTime)
+      }) 
+    })
+
   },
   methods:{
     checkLocalStorageEnabled(){
@@ -90,6 +117,16 @@ export default {
     },
     pause(){
       this.audioEle.pause()
+    },
+    formatTime(val){
+      var m = Math.floor(val/60).toString();
+      var s = Math.round(val%60).toString();
+      m = (m.length == 1) ? 0+m : m;
+      s = (s.length == 1) ? 0+s : s;
+      return m+":"+s;
+    },
+    getPercent(curTime){
+      return ((curTime / (this.audioDuration/1000)).toFixed(2)) * 100 +'%'
     }
   },
   components: {

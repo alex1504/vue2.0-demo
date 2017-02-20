@@ -7,9 +7,6 @@ const store = new Vuex.Store({
 	state: {
 		loginFlag: false,
 		activeRoute: 'movie',
-<<<<<<< HEAD
-		audioSrc: ''
-=======
 		audioSrc: '',
 		music: {
 			activeList: null,
@@ -24,7 +21,6 @@ const store = new Vuex.Store({
 			activeTime: '00:00',
 			activePercent: '0%'
 		}
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
 	},
 	getters: {
 		[types.THEME](state){
@@ -45,9 +41,6 @@ const store = new Vuex.Store({
 		}
 	},
 	mutations:{
-		[types.AUDIO_CHANGE](state,payload){
-			state.audioSrc = payload.audioSrc
-		},
 		[types.ROUTE_CHANGE](state,payload){
 			state.activeRoute = payload.activeRoute
 		},

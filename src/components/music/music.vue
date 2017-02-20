@@ -60,16 +60,12 @@ export default {
   },
   methods: {
     showList(index){
-<<<<<<< HEAD
-    	this.$router.push({ name: 'music-list', params: { id: this.albums[index].id}})
-=======
     	this.$router.push({ name: 'music-list', params: { 
     		id: this.albums[index].id}
     	})
 
     	// 存储当前列表id到本地
 	  	Store.set('activeListId',this.albums[index].id);
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
     }
   }
 }

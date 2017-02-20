@@ -1,35 +1,11 @@
 <template>
 <div id="music-play">
 	<md-theme :md-name="theme">
-<<<<<<< HEAD
-		<headerBack :title="songName"></headerBack>
-=======
 		<headerBack :title="activeSong.albumName"></headerBack>
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
 	</md-theme> 
 	<div class="container-wrap">
 		<div class="container">
 			<div class="img-wrap">
-<<<<<<< HEAD
-				<img src="./img/chinese_music.jpg">
-			</div>
-			<div class="main">
-				<h2>title</h2>
-				<p>author</p>
-				<div class="progress-wrap">
-					<div class="time play">2:09</div>
-					<div class="progress-bg">
-						<div class="progress">
-							<div class="progress-bar"></div>
-						</div>
-					</div>
-					<div class="time total">2:05</div>
-				</div>
-				<div class="panel">
-					<i class="btn prev">a</i>
-					<i class="btn play">b</i>
-					<i class="btn next">c</i>
-=======
 				<img :src="activeSong.avatarUrl">
 			</div>
 			<div class="main">
@@ -48,7 +24,6 @@
 					<i class="btn prev iconfont icon-prev" @click.prevent="playPrev()"></i>
 					<i :class="['btn play iconfont', iconState]" @click.prevent="togglePlay()"></i>
 					<i class="btn next iconfont icon-next" @click.prevent="playNext()"></i>
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
 				</div>
 			</div>
 		</div>
@@ -71,32 +46,12 @@ export default {
   data() {
 	return {
 		id: this.$route.params.id,
-<<<<<<< HEAD
-		flag: true,
-		playLists: [],
-		searchLists:[],
-		audioProgress: '100%',
-		progressFlag: false,
-		songName: "歌曲名字"
-=======
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
 	};
   },
   computed:{
     theme(){
     	return this.$store.getters.THEME_COLOR
     },
-<<<<<<< HEAD
-  },
-  mounted:function(){
-
-  },
-  filters:{
-  	
-  },
-  methods: {
-   
-=======
     playList(){
     	return this.$store.state.music.activeList || Store.get("music_list_"+ Store.get('activeListId'))
     },
@@ -241,13 +196,10 @@ export default {
    }
 
 
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
   }
 }
 </script>
 <style scoped lang="scss">
-<<<<<<< HEAD
-=======
     h2{
     	font-size: 1.6rem;
     }
@@ -255,7 +207,6 @@ export default {
 		font-size: 1rem;
 		color: #fff;
 	}
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
 	#music-play{
 		min-height: 100vh;
 		box-sizing: border-box;
@@ -270,35 +221,18 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content:center;
-<<<<<<< HEAD
-=======
 		background-color: #545863;
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
 	}
 	.container{
 		width: 90%;
 		height: 95%;
-<<<<<<< HEAD
-		border: 1px solid #aaa;
-		.img-wrap{
-=======
 		box-shadow: 0px 0px 10px 0px #2a2c33;
 		.img-wrap{
 			position: relative;
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
 			height: 60%;
 			img{
 				width: 100%;
 				height: 100%;
-<<<<<<< HEAD
-			}
-		}	
-		.main{
-			height:40%;
-			box-sizing: border-box;
-			padding: 20px;
-		
-=======
 				opacity: 0.5;
 			}
 			&::after{
@@ -318,27 +252,10 @@ export default {
 				margin: 10px 0;
 				line-height: 1.0;
 			}
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
 		}
 	}
 	
 	.progress-wrap{
-<<<<<<< HEAD
-		display: flex;
-		align-items: center;
-		.time{
-			flex: 1
-		}
-		.progress-bg{
-			height: 4px;
-			background-color: teal;
-			flex: 4
-		}
-	}
-	.panel{
-		display: flex;
-		align-items: center;
-=======
 		margin: 4% 0;
 		display: flex;
 		align-items: center;
@@ -376,15 +293,11 @@ export default {
 			color: #fff;
 			font-size: 40px;
 		}
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
 		.prev,.next{
 			flex: 4;
 		}
 		.play{
-<<<<<<< HEAD
-=======
 			font-size: 80px;
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
 			flex: 2;
 		}
 	}

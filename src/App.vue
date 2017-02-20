@@ -1,10 +1,6 @@
 <template>
   <div id="app">
-<<<<<<< HEAD
-    <audio :src="audioSrc" id="audio"></audio>
-=======
     <audio :src="audioSrc" id="music" autoplay></audio>
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
     <router-view></router-view>
     <md-dialog-alert
       :md-content="alert.content"
@@ -29,7 +25,6 @@ export default {
         content:' ',
         ok:'ok',
       },
-      audioEle: document.querySelector("#audio")
     }
   },
   computed: {
@@ -37,10 +32,6 @@ export default {
       return this.$route.name
     },
     audioSrc(){
-<<<<<<< HEAD
-      return this.$store.state.audioSrc
-    }
-=======
       return this.$store.state.music.activeSong.activeSrc
     },
     audioDuration(){
@@ -62,21 +53,12 @@ export default {
       return this.$store.state.music.playing
     },
 
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
   },
   watch:{
     activeRoute(){
       this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute});
       this.checkLogin();
     },
-<<<<<<< HEAD
-    audioSrc(){
-      console.log(this.audioEle)
-    }
-  },
-  mounted: function(){
-    this.checkLocalStorageEnabled();
-=======
     playing(val){
       if(val){
         document.getElementById("music").play()
@@ -92,7 +74,6 @@ export default {
     this.checkLocalStorageEnabled();
 
     // 刷新进行路由检测跳转
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
     this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute})
 
     // 验证是否登录
@@ -158,8 +139,6 @@ export default {
     },
     pause(){
       this.audioEle.pause()
-<<<<<<< HEAD
-=======
     },
     formatTime(val){
       var m = Math.floor(val/60).toString();
@@ -170,7 +149,6 @@ export default {
     },
     getPercent(curTime){
       return ((curTime / (this.audioDuration/1000)).toFixed(2)) * 100 +'%'
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
     }
   },
   components: {

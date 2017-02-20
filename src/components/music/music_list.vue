@@ -5,30 +5,6 @@
 		<backToTop @clickBack="backToTop"></backToTop>
 		<search @searchSong="showResults"></search>
 		<md-list v-if="flag">
-<<<<<<< HEAD
-		    <md-list-item v-for="(music, index) of playLists" @click='play(index)'>
-		      <md-avatar>
-		        <img :src="music.album.picUrl" alt="People">
-		      </md-avatar>
-		      <span>{{music.name | getShortName}}/{{music.duration | getDuration}}</span>
-		      <md-button class="md-icon-button md-list-action">
-		      	<md-icon class="md-primary md-theme-teal"><i class="iconfont icon-play"></i></md-icon>
-		      </md-button>
-		      <div class="progress" :style="{ width: audioProgress}" v-show="progressFlag"></div>
-		    </md-list-item>
-		   
-		</md-list> 
-		<md-list v-if="!flag">
-		    <md-list-item v-for="(music, index) of searchLists" @click='togglePlay(index)'>
-		      <md-avatar>
-		        <img :src="music.album.picUrl" alt="People">
-		      </md-avatar>
-		
-		      <span>{{music.name}}</span>
-		      <md-button class="md-icon-button md-list-action">
-		        <md-icon class="md-primary md-theme-teal"><i class="iconfont icon-play"></i></md-icon>
-		      </md-button>
-=======
 		    <md-list-item v-for="(music, index) of activeList" @click='goPlay(index)'  :class="bgState[index]">
 		      <md-avatar>
 		        <img :src="music.album.picUrl" alt="People">
@@ -51,7 +27,6 @@
 		      	<md-icon class="md-primary md-theme-teal"><i :class="['iconfont', iconState[index]]"></i></md-icon>
 		      </md-button>
 		      <div class="progress" :style="{ 'width': audioProgress}" v-show="music.playing"></div>
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
 		    </md-list-item>
 		</md-list>
 	</md-theme> 
@@ -74,23 +49,10 @@ export default {
 	return {
 		id: this.$route.params.id,
 		flag: true,
-<<<<<<< HEAD
-		playLists: [],
-		searchLists:[],
-		audioProgress: '100%',
-		progressFlag: false,
-	};
-  },
-  computed:{
-    spinnerClass(){
-      return this.$store.getters.SPINNER_CLASS
-    },
-=======
 		searchList:[],
 	};
   },
   computed:{
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
     theme(){
     	return this.$store.getters.THEME_COLOR
     },
@@ -105,26 +67,6 @@ export default {
 		}
 		return mapAlbum[this.id]
     },
-<<<<<<< HEAD
-    
-  },
-  mounted:function(){
-
-  	var localList = Store.get('music_list_'+this.$route.params.id);
-  	if( typeof localList !== "undefined" ){
-  		this.playLists = localList;
-  		return;
-  	}
-  	axios.get(API_PROXY+'http://music.163.com/api/playlist/detail?id='+this.id)
-	  .then(function (res) {
-	  	console.log(res)	
-	  	this.playLists = res.data.result.tracks;
-	  	Store.set('music_list_'+this.$route.params.id, res.data.result.tracks);
-	  }.bind(this))
-	  .catch(function (error) {
-	    console.log(error);
-	  });
-=======
     activeList(){
     	return this.$store.state.music.activeList
     },
@@ -169,7 +111,6 @@ export default {
   		return;
   	}
   	this.getList();
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
   },
   filters:{
   	getShortName(val){
@@ -177,14 +118,10 @@ export default {
   			return val.slice(0, 10)+"...";
   		return val;
   	},
-<<<<<<< HEAD
-  	getDuration(val){
-=======
   	formatTime(val){
   		if(typeof val === 'undefined'){
   			return '未知长度';
   		}
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
   		var m = Math.floor(val/1000/60).toString();
   		var s = Math.round(val/1000%60).toString();
   		m = (m.length == 1) ? 0+m : m;
@@ -195,14 +132,6 @@ export default {
   methods: {
     showResults(songs){
     	if(songs){
-<<<<<<< HEAD
-    		this.searchLists = songs;
-    		this.flag = false
-    	}else{
-    		this.flag = true
-    	}
-    },
-=======
     		this.searchList = songs;
     		this.flag = false
     	}else{
@@ -243,17 +172,12 @@ export default {
 		    console.log(error);
 		  });
     },
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
     showList: function(){
     	this.flag = true
     },
     backToTop(){
     	document.body.scrollTop = 0;
     },
-<<<<<<< HEAD
-    play(index){
-    	this.$store.commit('AUDIO_CHANGE',{audioSrc: this.playLists[index].mp3Url})
-=======
     goPlay(index){
     	// 如果为搜索列表
     	if(!this.flag){
@@ -307,7 +231,6 @@ export default {
     	})
 
     	
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
     }
     
   }
@@ -327,13 +250,9 @@ export default {
 		bottom:0px;
 		background-color: rgba(0,128,128,.5)
 	}
-<<<<<<< HEAD
-	
-=======
 	.active{
 		background-color: rgba(218, 218, 218, 0.57);
 	}
->>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
 </style>
 
 

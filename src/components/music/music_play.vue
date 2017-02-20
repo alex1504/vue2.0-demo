@@ -52,8 +52,8 @@ export default {
     theme(){
     	return this.$store.getters.THEME_COLOR
     },
-    playLists(){
-    	return this.$store.state.music.activeLists || Store.get("music_list_"+ Store.get('activeListId'))
+    playList(){
+    	return this.$store.state.music.activeList || Store.get("music_list_"+ Store.get('activeListId'))
     },
     activeIndex(){
 	   	return this.$store.state.music.activeSong.activeIndex;
@@ -70,15 +70,15 @@ export default {
 	     	}
 	   	 }*/
  	 // 从vux获取歌曲数据
-     var lists = this.playLists;
+     var lists = this.playList;
      var index = this.$store.state.music.activeSong.activeIndex || Store.get('activeSong').activeIndex;
      return {
      	id: lists && lists[index] && lists[index].id || 0,
      	name: lists && lists[index] && lists[index].name || '',
 		singer: lists && lists[index] && lists[index].artists && lists[index].artists[0].name || '',
-		duration: lists && lists[index] && lists[index].duration || 0,
+		duration: this.$store.state.music.activeSong.duration,
 		avatarUrl: lists && lists[index] && lists[index].album.picUrl || '',
-		albumName: lists && lists[index] && lists[index].album.name || ''
+		albumName: lists && lists[index] && "专辑："+lists[index].album.name || ''
      }
    },
    playState(){
@@ -133,36 +133,66 @@ export default {
    },
    playNext(){
    		var index = ++this.activeIndex;
-   		console.log(this.playLists[index].artists[0].picUrl)
+   		index = index < 0 ? 0 : index;
+   		index = index > this.playList.length-1 ? this.playList.length-1 : index;
+   		console.log(this.playList[index].artists[0].picUrl)
    		/*提交MUSIC_SONG_CHANGE的mutation*/
     	this.$store.commit('MUSIC_SONG_CHANGE',{
-    		avatarUrl: this.playLists[index].album.picUrl,
-    		activeSrc: this.playLists[index].mp3Url,
+    		avatarUrl: this.playList[index].album.picUrl,
+    		activeSrc: this.playList[index].mp3Url,
     		activeIndex: index,
-    		duration: this.playLists[index].duration,
+    		duration: this.playList[index].duration,
     		playing: true
     	})
     	/*更改视图歌曲信息*/
     	this.activeSong = {
-    		id: this.playLists[index].id,
-			name: this.playLists[index].name,
-			singer: this.playLists[index].artists[0].name,
-			avatarUrl: this.playLists[index].album.picUrl,
-			duration: this.playLists[index].duration,
+    		id: this.playList[index].id,
+			name: this.playList[index].name,
+			singer: this.playList[index].artists[0].name,
+			avatarUrl: this.playList[index].album.picUrl,
+			duration: this.playList[index].duration,
 			activeIndex: index
     	}
     	/*更改本地歌曲信息*/
     	Store.set('activeSong',{
-    		id: this.playLists[index].id,
-			name: this.playLists[index].name,
-			singer: this.playLists[index].artists[0].name,
-			avatarUrl: this.playLists[index].album.picUrl,
-			duration: this.playLists[index].duration,
+    		id: this.playList[index].id,
+			name: this.playList[index].name,
+			singer: this.playList[index].artists[0].name,
+			avatarUrl: this.playList[index].album.picUrl,
+			duration: this.playList[index].duration,
 			activeIndex: index
     	});
    },
    playPrev(){
-
+   		var index = --this.activeIndex;
+   		index = index < 0 ? 0 : index;
+   		index = index > this.playList.length-1 ? this.playList.length-1 : index;
+   		/*提交MUSIC_SONG_CHANGE的mutation*/
+    	this.$store.commit('MUSIC_SONG_CHANGE',{
+    		avatarUrl: this.playList[index].album.picUrl,
+    		activeSrc: this.playList[index].mp3Url,
+    		activeIndex: index,
+    		duration: this.playList[index].duration,
+    		playing: true
+    	})
+    	/*更改视图歌曲信息*/
+    	this.activeSong = {
+    		id: this.playList[index].id,
+			name: this.playList[index].name,
+			singer: this.playList[index].artists[0].name,
+			avatarUrl: this.playList[index].album.picUrl,
+			duration: this.playList[index].duration,
+			activeIndex: index
+    	}
+    	/*更改本地歌曲信息*/
+    	Store.set('activeSong',{
+    		id: this.playList[index].id,
+			name: this.playList[index].name,
+			singer: this.playList[index].artists[0].name,
+			avatarUrl: this.playList[index].album.picUrl,
+			duration: this.playList[index].duration,
+			activeIndex: index
+    	});
    }
 
 
@@ -170,6 +200,13 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+    h2{
+    	font-size: 1.6rem;
+    }
+	div,p{
+		font-size: 1rem;
+		color: #fff;
+	}
 	#music-play{
 		min-height: 100vh;
 		box-sizing: border-box;
@@ -184,11 +221,12 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content:center;
+		background-color: #545863;
 	}
 	.container{
 		width: 90%;
 		height: 95%;
-		border: 1px solid #aaa;
+		box-shadow: 0px 0px 10px 0px #2a2c33;
 		.img-wrap{
 			position: relative;
 			height: 60%;
@@ -203,14 +241,13 @@ export default {
 				width: 100%;
 				height: 100%;
 				left:0;
-				background-color: rgba(0,0,0,.3);
 			}
 		}	
 		.main{
 			position: relative;
 			height:40%;
 			box-sizing: border-box;
-			padding: 8% 0;
+			padding: 6% 0;
 			h2{
 				margin: 10px 0;
 				line-height: 1.0;
@@ -234,13 +271,13 @@ export default {
 				position: absolute;
 				height:100%;
 				left: 0;
-				background-color: #009688;
+				background-color: #fff;
 				.progress-bar{
 					position: absolute;
 					width: 12px;
 					height: 12px;
 					border-radius: 50%;
-					background-color: #009688;
+					background-color: #fff;
 					left: 100%;
 					top:50%;
 					margin-top: -6px;
@@ -253,7 +290,7 @@ export default {
 		display: flex;
 		align-items: center;
 		.btn{
-			color: #009688;
+			color: #fff;
 			font-size: 40px;
 		}
 		.prev,.next{

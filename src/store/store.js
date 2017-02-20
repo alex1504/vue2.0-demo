@@ -9,8 +9,8 @@ const store = new Vuex.Store({
 		activeRoute: 'movie',
 		audioSrc: '',
 		music: {
-			activeLists: null,
-			activeListsId: '',
+			activeList: null,
+			activeListId: '',
 			playing: false,
 			activeSong:{
 				activeSrc: '',
@@ -48,12 +48,19 @@ const store = new Vuex.Store({
 			state.loginFlag = payload.loginFlag
 		},
 		[types.MUSIC_LISTS_CHANGE](state,payload){
-			state.music.activeLists = payload.activeLists
-			state.music.activeListsId = payload.activeListsId
+			state.music.activeList = payload.activeList
+			state.music.activeListId = payload.activeListId
 		},
 		[types.MUSIC_SONG_CHANGE](state,payload){
 			state.music.activeSong.activeSrc = payload.activeSrc;
 			state.music.activeSong.activeIndex = payload.activeIndex;
+
+			// 重置歌曲列表播放状态为false，设置当前播放歌曲播放状态为true
+			state.music.activeList.forEach(function(obj){
+				obj.playing = false;
+			})
+			state.music.activeList[payload.activeIndex].playing = true;
+
 			state.music.activeSong.duration = payload.duration;
 			state.music.activeSong.avatarUrl = payload.avatarUrl;
 			state.music.playing = payload.playing;
@@ -64,6 +71,9 @@ const store = new Vuex.Store({
 		[types.PLAY_TIME_CHANGE](state,payload){
 			state.music.activeTime = payload.curTime;
 			state.music.activePercent = payload.activePercent;
+		},
+		[types.DURATION_CHANGE](state,payload){
+			state.music.activeSong.duration = payload.duration;
 		},
 	}
 })

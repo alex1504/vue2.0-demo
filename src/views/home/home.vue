@@ -12,7 +12,9 @@
 			    <p class="soucecode">SouceCode:</p>
 			    <p><a href="https://github.com/alex1504/vue2.0-demo">https://github.com/alex1504/vue2.0-demo</a></p>
 			</md-sidenav>
+			<keep-alive>
 				<router-view></router-view>
+			</keep-alive>
 		</md-theme>
 	</div>
 </template>

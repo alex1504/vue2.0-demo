@@ -35,7 +35,19 @@ export default {
       return this.$store.state.music.activeSong.activeSrc
     },
     audioDuration(){
-      return this.$store.state.music.activeSong.duration
+      var that = this;
+      var duration = this.$store.state.music.activeSong.duration;
+      if(typeof duration !== "undefined"){
+        return duration;
+      }
+      // 当duration字段不存在，监听loadedmetadata获取duration,乘1000转化成毫秒
+      document.getElementById("music").addEventListener("canplay",function(){
+        var duration = this.duration * 1000;
+        that.$store.commit('DURATION_CHANGE',{
+          duration: duration,
+        })
+        return duration;
+      })
     },
     playing(){
       return this.$store.state.music.playing
@@ -69,6 +81,8 @@ export default {
       this.checkLogin();
     }.bind(this)
 
+    
+
     // 监听audio播放时间
     document.getElementById("music").addEventListener("timeupdate", function(){
       var curTime = this.currentTime;
@@ -78,6 +92,14 @@ export default {
       }) 
     })
 
+    // 监听audio播放完毕事件
+   /* document.getElementById("music").addEventListener("ended", function(){
+      var curTime = this.currentTime;
+      that.$store.commit("PLAY_TIME_CHANGE",{
+        curTime: that.formatTime(curTime),
+        activePercent: that.getPercent(curTime)
+      }) 
+    })*/
   },
   methods:{
     checkLocalStorageEnabled(){

@@ -47,8 +47,9 @@ export default {
 		}
 	},
 	computed: {
-		/*这里无法获取到$store???*/
-		/*theme: this.$store.getters.theme*/
+		theme(){
+	      return this.$store.getters.THEME_COLOR
+	    }
 	},
 	mounted: function(){
 		this.reqMovieDetail();

@@ -22,8 +22,19 @@ export default {
     search: Util.debounce(function(){
 		    	axios.get(API_PROXY+'http://s.music.163.com/search/get?type=1&s='+this.searchQuery)
 				  .then(function(res) {
-				  	if(res.data.result && res.data.result.songs)
-				    	this.$emit("searchSong", res.data.result.songs);
+				  	if(res.data.result && res.data.result.songs){
+				  		var playList = res.data.result.songs;
+					  	// 为当前playList的每项增加一个playing状态用于指示歌曲是否正在播放
+					  	playList.forEach(function(obj){
+					  		obj.playing = false;
+					  	})
+					  	// 提交MUSIC_LISTS_CHANGE的mutation
+					  	this.$store.commit('MUSIC_LISTS_CHANGE', {
+					  		'activeList': playList,
+					  		'activeListId': this.id
+					  	});
+				    	this.$emit("searchSong", playList);
+				  	}
 				    if(typeof res.data.result === "undefined")
 				    	this.$emit("searchSong", '');
 				  }.bind(this))

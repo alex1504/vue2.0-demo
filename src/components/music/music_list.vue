@@ -4,7 +4,8 @@
 		<headerBack :title="albumName"></headerBack>
 		<backToTop @clickBack="backToTop"></backToTop>
 		<search @searchSong="showResults"></search>
-		<md-list v-if="flag">
+    <md-spinner :md-size="60" md-indeterminate v-if='spinnerFlag'></md-spinner>
+		<md-list v-if="flag" v-show="!spinnerFlag">
 		    <md-list-item v-for="(music, index) of activeList" @click='goPlay(index)'  :class="bgState[index]">
 		      <md-avatar>
 		        <img :src="music.album.picUrl" alt="People">
@@ -17,7 +18,7 @@
 		    </md-list-item>
 		</md-list> 
 
-		<md-list v-if="!flag">
+		<md-list v-if="!flag" v-show="!spinnerFlag">
 		    <md-list-item v-for="(music, index) of searchList" @click='goPlay(index)'  :class="bgState[index]">
 		      <md-avatar>
 		        <img :src="music.album.picUrl" alt="People">
@@ -50,6 +51,7 @@ export default {
 		id: this.$route.params.id,
 		flag: true,
 		searchList:[],
+    spinnerFlag: false
 	};
   },
   computed:{
@@ -107,6 +109,7 @@ export default {
   mounted:function(){
   	// 这里注意this.$route.params.id获取的类型是Number，所以用==等号比较
   	if(typeof this.activeList !== "undefined" && this.activeListId == this.id){
+      this.spinnerFlag = false;
   		return;
   	}
   	this.getList();
@@ -149,27 +152,30 @@ export default {
   		return m+":"+s;
   	},
     getList(){
-		axios.get(API_PROXY+'http://music.163.com/api/playlist/detail?id='+this.id)
-		  .then(function (res) {
-		  	var playList = res.data.result.tracks;
-		  	// 为当前playList的每项增加一个playing状态用于指示歌曲是否正在播放
-		  	playList.forEach(function(obj){
-		  		obj.playing = false;
-		  	})
-		
-		  	// 提交MUSIC_LISTS_CHANGE的mutation
-		  	this.$store.commit('MUSIC_LISTS_CHANGE', {
-		  		'activeList': playList,
-		  		'activeListId': this.id
-		  	});
+      this.spinnerFlag = true;
+  		axios.get(API_PROXY+'http://music.163.com/api/playlist/detail?id='+this.id)
+  		  .then(function (res) {
+  		  	var playList = res.data.result.tracks;
+  		  	// 为当前playList的每项增加一个playing状态用于指示歌曲是否正在播放
+  		  	playList.forEach(function(obj){
+  		  		obj.playing = false;
+  		  	})
+  		
+  		  	// 提交MUSIC_LISTS_CHANGE的mutation
+  		  	this.$store.commit('MUSIC_LISTS_CHANGE', {
+  		  		'activeList': playList,
+  		  		'activeListId': this.id
+  		  	});
 
-		  	// 存储当前列表到本地
-		  	Store.set('music_list_'+this.$route.params.id, res.data.result.tracks);
+  		  	// 存储当前列表到本地
+  		  	Store.set('music_list_'+this.$route.params.id, res.data.result.tracks);
 
-		  }.bind(this))
-		  .catch(function (error) {
-		    console.log(error);
-		  });
+          // 隐藏加载图标
+          this.spinnerFlag = false;
+  		  }.bind(this))
+  		  .catch(function (error) {
+  		    console.log(error);
+  		  });
     },
     showList: function(){
     	this.flag = true

@@ -14,10 +14,11 @@
 </template>
 <script>
 import headerBack from "../common/header_back.vue"
+import Store from "../../assets/js/storage.js"
 export default {
   data(){
     return{
-      localData: JSON.parse(localStorage.getItem('photoData')),
+      localData: Store.get('photoData'),
       tip:'',
       tipFlag: false
     }

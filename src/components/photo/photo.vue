@@ -16,6 +16,7 @@
 <script>
 
 import axios from "axios"
+import Store from "../../assets/js/storage.js"
 export default {
   data(){
     return {
@@ -58,7 +59,7 @@ export default {
       this.$router.push({ name: 'photo-detail', params: {id:this.photoLists[index]._id}});
       // 存储一份到本地，进入图片详情页后刷新从本地获取
       var photoData = {'index':index, 'photoLists': this.photoLists};
-      localStorage.setItem('photoData', JSON.stringify(photoData));
+      Store.set('photoData', photoData);
     },
     isTouchScreenBtm: function(e){
       var winH = window.innerHeight || document.documentElement.clientHeight;

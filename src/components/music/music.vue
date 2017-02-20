@@ -12,6 +12,7 @@
 import Search from "./search_music.vue"
 import backToTop from "../common/backToTop.vue"
 import axios from "axios"
+import Store from "../../assets/js/storage.js"
 export default {
   components: {
 
@@ -59,7 +60,16 @@ export default {
   },
   methods: {
     showList(index){
+<<<<<<< HEAD
     	this.$router.push({ name: 'music-list', params: { id: this.albums[index].id}})
+=======
+    	this.$router.push({ name: 'music-list', params: { 
+    		id: this.albums[index].id}
+    	})
+
+    	// 存储当前列表id到本地
+	  	Store.set('activeListId',this.albums[index].id);
+>>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
     }
   }
 }

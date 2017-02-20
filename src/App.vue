@@ -1,6 +1,10 @@
 <template>
   <div id="app">
+<<<<<<< HEAD
     <audio :src="audioSrc" id="audio"></audio>
+=======
+    <audio :src="audioSrc" id="music" autoplay></audio>
+>>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
     <router-view></router-view>
     <md-dialog-alert
       :md-content="alert.content"
@@ -33,24 +37,88 @@ export default {
       return this.$route.name
     },
     audioSrc(){
+<<<<<<< HEAD
       return this.$store.state.audioSrc
     }
+=======
+      return this.$store.state.music.activeSong.activeSrc
+    },
+    audioDuration(){
+      var that = this;
+      var duration = this.$store.state.music.activeSong.duration;
+      if(typeof duration !== "undefined"){
+        return duration;
+      }
+      // 当duration字段不存在，监听loadedmetadata获取duration,乘1000转化成毫秒
+      document.getElementById("music").addEventListener("canplay",function(){
+        var duration = this.duration * 1000;
+        that.$store.commit('DURATION_CHANGE',{
+          duration: duration,
+        })
+        return duration;
+      })
+    },
+    playing(){
+      return this.$store.state.music.playing
+    },
+
+>>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
   },
   watch:{
     activeRoute(){
       this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute});
       this.checkLogin();
     },
+<<<<<<< HEAD
     audioSrc(){
       console.log(this.audioEle)
     }
   },
   mounted: function(){
     this.checkLocalStorageEnabled();
+=======
+    playing(val){
+      if(val){
+        document.getElementById("music").play()
+      }else{
+        document.getElementById("music").pause()
+      }
+    }
+  },
+  mounted: function(){
+    var that = this;
+
+    // 测试localStorage是否可用
+    this.checkLocalStorageEnabled();
+
+    // 刷新进行路由检测跳转
+>>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
     this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute})
+
+    // 验证是否登录
     window.onload = function(){
       this.checkLogin();
     }.bind(this)
+
+    
+
+    // 监听audio播放时间
+    document.getElementById("music").addEventListener("timeupdate", function(){
+      var curTime = this.currentTime;
+      that.$store.commit("PLAY_TIME_CHANGE",{
+        curTime: that.formatTime(curTime),
+        activePercent: that.getPercent(curTime)
+      }) 
+    })
+
+    // 监听audio播放完毕事件
+   /* document.getElementById("music").addEventListener("ended", function(){
+      var curTime = this.currentTime;
+      that.$store.commit("PLAY_TIME_CHANGE",{
+        curTime: that.formatTime(curTime),
+        activePercent: that.getPercent(curTime)
+      }) 
+    })*/
   },
   methods:{
     checkLocalStorageEnabled(){
@@ -90,6 +158,19 @@ export default {
     },
     pause(){
       this.audioEle.pause()
+<<<<<<< HEAD
+=======
+    },
+    formatTime(val){
+      var m = Math.floor(val/60).toString();
+      var s = Math.round(val%60).toString();
+      m = (m.length == 1) ? 0+m : m;
+      s = (s.length == 1) ? 0+s : s;
+      return m+":"+s;
+    },
+    getPercent(curTime){
+      return ((curTime / (this.audioDuration/1000)).toFixed(2)) * 100 +'%'
+>>>>>>> 7740dc6840917d20172cfde5dd1f44831e635cc5
     }
   },
   components: {

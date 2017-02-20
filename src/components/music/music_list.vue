@@ -105,9 +105,8 @@ export default {
     }
   },
   mounted:function(){
-  	console.log(typeof this.activeList !== "undefined" && this.activeList !== null && this.activeListId === this.id)
-  	if(typeof this.activeList !== "undefined" && this.activeList !== null && this.activeListId === this.id){
-  		this.playList = this.activeList;
+  	// 这里注意this.$route.params.id获取的类型是Number，所以用==等号比较
+  	if(typeof this.activeList !== "undefined" && this.activeListId == this.id){
   		return;
   	}
   	this.getList();

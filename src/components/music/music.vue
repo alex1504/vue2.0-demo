@@ -61,7 +61,7 @@ export default {
   methods: {
     showList(index){
     	this.$router.push({ name: 'music-list', params: { 
-    		id: this.albums[index].id}
+    		listId: this.albums[index].id}
     	})
 
     	// 存储当前列表id到本地

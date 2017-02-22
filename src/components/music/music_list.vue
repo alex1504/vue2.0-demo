@@ -48,7 +48,7 @@ export default {
   },
   data() {
 	return {
-		id: this.$route.params.id,
+		id: this.$route.params.listId,
 		flag: true,
 		searchList:[],
     spinnerFlag: false
@@ -188,6 +188,7 @@ export default {
     	if(!this.flag){
     		/*存储当前歌曲数据到本地*/
 	    	Store.set("activeSong", {
+          id: this.searchList[index].id,
 	    		albumName: this.searchList[index].album.name,
 	    		avatarUrl: this.searchList[index].album.picUrl,
 	    		name: this.searchList[index].name,
@@ -198,6 +199,7 @@ export default {
 
     		/*提交MUSIC_SONG_CHANGE的mutation*/
 	    	this.$store.commit('MUSIC_SONG_CHANGE',{
+          id: this.searchList[index].id,
 	    		albumName: this.searchList[index].album.name,
 	    		avatarUrl: this.searchList[index].album.picUrl,
 	    		activeSrc: this.searchList[index].audio,
@@ -205,12 +207,13 @@ export default {
 	    		duration: this.searchList[index].duration,
 	    		playing: true
 	    	})
+
     	}
     	// 如果为专辑列表
     	else{
-
     		/*存储当前歌曲数据到本地*/
 	    	Store.set("activeSong", {
+          id: this.activeList[index].id,
 	    		albumName: this.activeList[index].album.name,
 	    		avatarUrl: this.activeList[index].album.picUrl,
 	    		name: this.activeList[index].name,
@@ -221,6 +224,7 @@ export default {
 
 	    	/*提交MUSIC_SONG_CHANGE的mutation*/
 	    	this.$store.commit('MUSIC_SONG_CHANGE',{
+          id: this.activeList[index].id,
 	    		albumName: this.activeList[index].album.name,
 	    		avatarUrl: this.activeList[index].album.picUrl,
 	    		activeSrc: this.activeList[index].mp3Url,
@@ -230,9 +234,19 @@ export default {
 	    	})
     	}
 
+      /*重置高亮行数*/
+      this.$store.commit("LYRIC_DATA_LINEINDEX_CHANGE",{
+        lineIndex: -1
+      })
+
+      /*重置LYRIC_DATA比较指针*/
+      this.$store.commit("LYRIC_DATA_INDEX_CHANGE",{
+        index: 0
+      })
+
     	/*跳转*/
     	this.$router.push({name:'music-play',params:{
-    		id: this.activeList[index].id}
+    		songId: this.activeList[index].id}
     	})
 
     	

@@ -52,6 +52,12 @@ export default {
     playing(){
       return this.$store.state.music.playing
     },
+    lyricData(){
+      return this.$store.state.music.activeSong.lyricData.lineArr
+    },
+    lyricDataIndex(){
+      return this.$store.state.music.activeSong.lyricData.index
+    }
 
   },
   watch:{
@@ -60,46 +66,63 @@ export default {
       this.checkLogin();
     },
     playing(val){
+/*
+      this.$refs.audio.play().catch(function(e){
+        this.state[index].paused = true;
+        this.state[index].iconState = 'icon-play';
+        this.$refs.audio.pause();
+      thishis.openDialog('dialog')
+    }.bind(this));
+
+*/
       if(val){
-        document.getElementById("music").play()
+        document.getElementById("music").play().catch(function(e){
+          console.log('error')
+        })
       }else{
         document.getElementById("music").pause()
       }
     }
   },
   mounted: function(){
-    var that = this;
 
     // 测试localStorage是否可用
     this.checkLocalStorageEnabled();
 
-    // 刷新进行路由检测跳转
+    // 刷新进行路由检测跳转 
     this.$store.commit('ROUTE_CHANGE',{activeRoute: this.activeRoute})
 
     // 验证是否登录
     window.onload = function(){
       this.checkLogin();
     }.bind(this)
-
     
-
     // 监听audio播放时间
-    document.getElementById("music").addEventListener("timeupdate", function(){
-      var curTime = this.currentTime;
-      that.$store.commit("PLAY_TIME_CHANGE",{
-        curTime: that.formatTime(curTime),
-        activePercent: that.getPercent(curTime)
-      }) 
-    })
+    document.getElementById("music").addEventListener("timeupdate", function(e){
+      var curTime = e.target.currentTime;
+      var point = parseFloat(this.lyricData[this.lyricDataIndex].time);
 
-    // 监听audio播放完毕事件
-   /* document.getElementById("music").addEventListener("ended", function(){
-      var curTime = this.currentTime;
-      that.$store.commit("PLAY_TIME_CHANGE",{
-        curTime: that.formatTime(curTime),
-        activePercent: that.getPercent(curTime)
+      if(curTime >= point){
+        this.$store.commit("LYRIC_DATA_LINEINDEX_CHANGE",{
+          'lineIndex': this.lyricDataIndex
+        }) 
+        this.$store.commit("LYRIC_DATA_INDEX_CHANGE",{
+          'index': ++this.lyricDataIndex
+        }) 
+      }
+
+      this.$store.commit("PLAY_TIME_CHANGE",{
+        curTime: this.formatTime(curTime),
+        activePercent: this.getPercent(curTime)
       }) 
-    })*/
+    }.bind(this))
+
+    // 监听audio播放完毕事件(生成一个八位随机数提交)
+    document.getElementById("music").addEventListener("ended", function(e){
+      this.$store.commit("PLAY_END_NUM_CHANGE",{
+        'endNum': parseInt(Math.random()*10000000)
+      }) 
+    }.bind(this))
   },
   methods:{
     checkLocalStorageEnabled(){
@@ -133,12 +156,6 @@ export default {
     },
     onClose(type) {
       this.$router.push({name:'login'})
-    },
-    play(){
-      this.audioEle.play()
-    },
-    pause(){
-      this.audioEle.pause()
     },
     formatTime(val){
       var m = Math.floor(val/60).toString();

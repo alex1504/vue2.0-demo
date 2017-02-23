@@ -205,7 +205,6 @@ export default {
 	    		activeSrc: this.searchList[index].audio,
 	    		activeIndex: index,
 	    		duration: this.searchList[index].duration,
-	    		playing: true
 	    	})
 
     	}
@@ -230,9 +229,12 @@ export default {
 	    		activeSrc: this.activeList[index].mp3Url,
 	    		activeIndex: index,
 	    		duration: this.activeList[index].duration,
-	    		playing: true
 	    	})
     	}
+      /*音乐播放状态改变*/
+      this.$store.commit('PLAY_STATE_CHANGE',{
+        playing: true
+      })
 
       /*重置高亮行数*/
       this.$store.commit("LYRIC_DATA_LINEINDEX_CHANGE",{

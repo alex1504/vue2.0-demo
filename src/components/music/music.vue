@@ -1,6 +1,6 @@
 <template>
 <div id="music">
-	<md-layout md-gutter>
+	<md-layout class="layout-wrap" md-gutter>
 		 <md-layout md-flex-xsmall="50" md-flex-small="50" md-flex-medium="33" v-for="(album, index) of albums">
 			 <img class="album-img" :src="album.bg" @click="showList(index)">
 		 </md-layout>
@@ -71,21 +71,34 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+	/* @keyframes fadeIn{
+		from{
+			opacity:0;
+		}to{
+			opacity:1
+		}
+	} */
 	#music{
-		min-height: 100vh;
+		height: 100vh;
 		box-sizing: border-box;
-		padding: 64px 0 38px;
+		padding: 64px 0 56px;
 		text-align: center;
+		/* animation: fadeIn 1s;
+		opacity:1; */
 	}
 	.md-layout{
 		text-align:center;
-		heihgt: 33.33%;
-
+		&.layout-wrap{
+			overflow-y: scroll;
+			-webkit-overflow-scrolling:touch;
+			height: 100%;	
+		}
 	}
 	.album-img{
 		width: 100%;
-		height: 100%;
+		max-height: 100%;
 	}
+	
 </style>
 
 

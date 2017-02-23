@@ -172,10 +172,6 @@ export default {
 		this.hArr = temp;
    },
    getLyric(){
-   	this.$store.commit("LYRIC_DATA_CHANGE", {'lyricData': [{
-		time: '',
-		lyric: '歌词加载中...'
-	}]});
    	axios.get(API_PROXY+'http://music.163.com/api/song/lyric?os=pc&lv=-1&kv=-1&tv=-1&id='+this.songId)
 	  .then(function (res) {
 	  	if(res.data.nolyric){
@@ -191,7 +187,7 @@ export default {
 	  	var lyricArr = [];
 	  	var lyricData = [];
 
-	  	console.log(lyric);
+	  	// console.log(lyric);
 	  	lyric.split("\n").forEach(function(val,index){
 	  		var timeTemp,
 	  			lyricTemp,
@@ -201,13 +197,13 @@ export default {
 	  		splitIndex = val.indexOf(']') + 1;
 	  		
 	  		if(val.charAt(1).search(/\d/)===-1){
-	  			/*排除这样的歌词结构
+	  			/*排除这样的歌词行
 		  		[by:冰淇淋蛋黄派]
 				[ti:凉凉]
 				[ar:月狸&玄月]
 				[al:]
 				[by:冰淇淋蛋黄派]
-				[00:00.00] 作曲 : 谭旋*/
+				*/
 	  			return true;    
 	  		}
 	  		
@@ -421,7 +417,9 @@ export default {
 			}
 			.lyric-box{
 				position: absolute;
-				width: 80%;
+				box-sizing: border-box;
+				padding: 0 20px;
+				width: 100%;
 				height: 80%;
 			    overflow: hidden;
 
@@ -506,10 +504,19 @@ export default {
 			flex: 2;
 		}
 	}
+	@media screen and (max-width: 640px){
+		.panel .btn{
+			font-size: 34px;
+		}
+		.panel .play{
+			font-size: 60px;
+		}
+	}
 	@media screen and (max-width: 320px){
 		.container .lyric-wrap .lyric-box .lyric{
 			font-size: 1.2rem;
 		}
+		
 	}
 </style>
 

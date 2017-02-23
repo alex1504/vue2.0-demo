@@ -25,12 +25,15 @@ const store = new Vuex.Store({
 							time: '',
 							lyric: ''
 						}
-					]
+					] 
 				}*/
 				lyricData: {
 					index: 0,
 					lineIndex: -1,
-					lineArr: []
+					lineArr: [{
+						time: '',
+						lyric: '歌词加载中...'
+					}]
 				}
 			},
 			activeTime: '00:00',
@@ -82,7 +85,6 @@ const store = new Vuex.Store({
 			}
 			state.music.activeSong.duration = payload.duration;
 			state.music.activeSong.avatarUrl = payload.avatarUrl;
-			state.music.playing = payload.playing;
 			state.music.activeSong.id = payload.id;
 		},
 		// 音乐播放状态改变

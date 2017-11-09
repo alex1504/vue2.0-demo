@@ -6,7 +6,7 @@
         <div v-for="(photo,index) in photoLists" :key="photo" class="item" @click="getPhotoDetail(index)">
             <img class="animated bounceIn" :src="photo.url">
         </div>
-      </transition>
+      </transition-group>
     </div>
     <md-spinner :class="spinnerClass" :md-size="60" md-indeterminate v-show="spinnerFlag"></md-spinner>
   </div>

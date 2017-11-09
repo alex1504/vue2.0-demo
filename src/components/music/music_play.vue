@@ -5,8 +5,14 @@
 	</md-theme> 
 	<div class="container-wrap">
 		<div class="container">
-			<div class="img-wrap">
+			<div class="lyric-wrap">
 				<img :src="activeSong.avatarUrl">
+				<div class="lyric-box">
+					<div class="lyric-content">
+						<p :class="['lyric', lineIndex === index ? 'active' : '']" v-for="(obj,index) of lyricData" :data-time="obj.time">{{obj.lyric}}</p>
+						<!-- <p class="lyric">啊啊啊啊啊啊啊啊</p> -->
+					</div>
+				</div>
 			</div>
 			<div class="main">
 				<h2>{{activeSong.name}}</h2>
@@ -45,10 +51,14 @@ export default {
   },
   data() {
 	return {
-		id: this.$route.params.id,
+		 dis: 0,
+		 hArr: []
 	};
   },
   computed:{
+  	songId(){
+		return this.$store.state.music.activeSong.id || Store.get("activeSong").id
+  	},
     theme(){
     	return this.$store.getters.THEME_COLOR
     },
@@ -60,15 +70,15 @@ export default {
 	},
     activeSong(){
      // 从本地获取歌曲数据
-	    /* var activeSongLocal = Store.get('activeSong');
-	   	 if(typeof activeSongLocal !== "undefined" && typeof activeSongLocal !== null){
-	   	 	return{
-		     	id: this.id,
-				name: activeSongLocal.name,
-				singer: activeSongLocal.singer,
-				duration: activeSongLocal.duration
-	     	}
-	   	 }*/
+     /* var activeSongLocal = Store.get('activeSong');
+   	 if(typeof activeSongLocal !== "undefined" && typeof activeSongLocal !== null){
+   	 	return{
+	     	id: this.id,
+			name: activeSongLocal.name,
+			singer: activeSongLocal.singer,
+			duration: activeSongLocal.duration
+     	}
+   	 }*/
  	 // 从vux获取歌曲数据
      var lists = this.playList;
      var index = this.$store.state.music.activeSong.activeIndex || Store.get('activeSong').activeIndex;
@@ -92,18 +102,51 @@ export default {
    },
    activePercent(){
    	return this.$store.state.music.activePercent
+   },
+   // 随机数用于判断是否音乐播放结束
+   endNum(){
+   	return this.$store.state.music.endNum
+   },
+   // 歌词数据，为保存着time字段和lyric字段对象的数组
+   lyricData(){
+   	return this.$store.state.music.activeSong.lyricData.lineArr
+   },
+   // 歌词高亮索引
+   lineIndex(){
+   	return this.$store.state.music.activeSong.lyricData.lineIndex
+   },
+   // 歌词高亮类
+   activeClass(index){
+   	var state = [];
+   	for(var i = 0; i < this.lyricData.length ; i++){
+   		state.push('active');
+   	}
+   	return state;
    }
+  
+  },
+  watch:{
+  	// 当endNum变化自动播放下一首歌
+  	endNum(){
+  		this.playNext();
+  	},
+  	// 当高亮索引大于等于4之后每次变化向上滚动<p>标签的高度
+  	lineIndex(){
+  		if(this.lineIndex = -1){
+  			
+  			this.getLyricH();
+
+  			document.querySelector(".lyric-content").style.transform = 'translateY(0px)';
+  		}
+  		if(this.lineIndex >= 4){
+  			this.dis += this.hArr[this.lineIndex-4]
+	  		// var h = document.querySelector(".lyric").offsetHeight;
+	  		document.querySelector(".lyric-content").style.transform = 'translateY(-'+ this.dis +'px)';
+  		}
+  	}
   },
   mounted:function(){
-  	console.log(this.activeSong)
-  	/*axios.get(API_PROXY+'http://music.163.com/api/song/lyric?os=pc&lv=-1&kv=-1&tv=-1&id='+this.id)
-	  .then(function (res) {
-	  	console.log(res);
-
-	  }.bind(this))
-	  .catch(function (error) {
-	    console.log(error);
-	  });*/
+  	this.getLyric();
   },
   filters:{
 	getShortName(val){
@@ -120,6 +163,73 @@ export default {
   	}
   },
   methods: {
+   getLyricH(){
+   		var temp = [];
+		document.querySelectorAll(".lyric").forEach(function(dom){
+			var h = dom.offsetHeight;
+			temp.push(h);
+		})
+		this.hArr = temp;
+   },
+   getLyric(){
+   	axios.get(API_PROXY+'http://music.163.com/api/song/lyric?os=pc&lv=-1&kv=-1&tv=-1&id='+this.songId)
+	  .then(function (res) {
+	  	if(res.data.nolyric){
+	  		this.$store.commit("LYRIC_DATA_CHANGE", {'lyricData': [{
+	  			time: '',
+	  			lyric: '暂无歌词数据'
+	  		}]});
+	  		return false;
+	  	}
+	  	var lyric = res.data && res.data.lrc.lyric;
+	  	
+	  	var timeArr = [];
+	  	var lyricArr = [];
+	  	var lyricData = [];
+
+	  	// console.log(lyric);
+	  	lyric.split("\n").forEach(function(val,index){
+	  		var timeTemp,
+	  			lyricTemp,
+	  			splitIndex;
+	  		var lyricDataTemp = {};
+
+	  		splitIndex = val.indexOf(']') + 1;
+	  		
+	  		if(val.charAt(1).search(/\d/)===-1){
+	  			/*排除这样的歌词行
+		  		[by:冰淇淋蛋黄派]
+				[ti:凉凉]
+				[ar:月狸&玄月]
+				[al:]
+				[by:冰淇淋蛋黄派]
+				*/
+	  			return true;    
+	  		}
+	  		
+		 	timeTemp = val.slice(0,splitIndex);
+		 	lyricTemp = val.slice(splitIndex);
+	  		
+	  		if(timeTemp){
+	  			var m = parseInt(timeTemp.match(/\d+[\.]?\d+/g)[0]);
+		  		var s = parseFloat(timeTemp.match(/\d+[\.]?\d+/g)[1]);
+		  		var totalS = (60 * m + s).toFixed(3);
+		  		lyricDataTemp.time = totalS;
+	  		}
+	  		if(lyricTemp) lyricDataTemp.lyric = lyricTemp;
+
+	  		if(lyricDataTemp.time) lyricData.push(lyricDataTemp);	
+
+	  	}.bind(this))
+	  	
+	  	this.$store.commit("LYRIC_DATA_CHANGE", {'lyricData': lyricData});
+	  	
+
+	  }.bind(this))
+	  .catch(function (error) {
+	    console.log(error);
+	  });
+   },
    togglePlay(){
    	 if(this.playState){
    	 	this.$store.commit("PLAY_STATE_CHANGE",{
@@ -135,15 +245,17 @@ export default {
    		var index = ++this.activeIndex;
    		index = index < 0 ? 0 : index;
    		index = index > this.playList.length-1 ? this.playList.length-1 : index;
-   		console.log(this.playList[index].artists[0].picUrl)
+
    		/*提交MUSIC_SONG_CHANGE的mutation*/
     	this.$store.commit('MUSIC_SONG_CHANGE',{
+    		id: this.playList[index].id,
     		avatarUrl: this.playList[index].album.picUrl,
     		activeSrc: this.playList[index].mp3Url,
     		activeIndex: index,
     		duration: this.playList[index].duration,
     		playing: true
     	})
+
     	/*更改视图歌曲信息*/
     	this.activeSong = {
     		id: this.playList[index].id,
@@ -153,6 +265,7 @@ export default {
 			duration: this.playList[index].duration,
 			activeIndex: index
     	}
+
     	/*更改本地歌曲信息*/
     	Store.set('activeSong',{
     		id: this.playList[index].id,
@@ -162,6 +275,29 @@ export default {
 			duration: this.playList[index].duration,
 			activeIndex: index
     	});
+
+    	/*重置高亮行数*/
+      	this.$store.commit("LYRIC_DATA_LINEINDEX_CHANGE",{
+        	lineIndex: -1
+      	})
+
+      	/*重置LYRIC_DATA比较指针*/
+	    this.$store.commit("LYRIC_DATA_INDEX_CHANGE",{
+	        index: 0
+	    })
+
+	    /*重置歌词移动距离dis*/
+	    this.dis = 0;
+
+    	/*跳转*/
+    	/*this.$router.push({name:'music-play',params:{
+    		songId: this.playList[index].id}
+    	})
+		*/
+    	/*获取歌词*/
+    	this.getLyric();
+
+
    },
    playPrev(){
    		var index = --this.activeIndex;
@@ -169,21 +305,24 @@ export default {
    		index = index > this.playList.length-1 ? this.playList.length-1 : index;
    		/*提交MUSIC_SONG_CHANGE的mutation*/
     	this.$store.commit('MUSIC_SONG_CHANGE',{
+    		id: this.playList[index].id,
     		avatarUrl: this.playList[index].album.picUrl,
     		activeSrc: this.playList[index].mp3Url,
     		activeIndex: index,
     		duration: this.playList[index].duration,
     		playing: true
     	})
+
     	/*更改视图歌曲信息*/
-    	this.activeSong = {
+    	/*this.activeSong = {
     		id: this.playList[index].id,
 			name: this.playList[index].name,
 			singer: this.playList[index].artists[0].name,
 			avatarUrl: this.playList[index].album.picUrl,
 			duration: this.playList[index].duration,
 			activeIndex: index
-    	}
+    	}*/
+
     	/*更改本地歌曲信息*/
     	Store.set('activeSong',{
     		id: this.playList[index].id,
@@ -193,6 +332,26 @@ export default {
 			duration: this.playList[index].duration,
 			activeIndex: index
     	});
+
+    	/*重置高亮行数*/
+      	this.$store.commit("LYRIC_DATA_LINEINDEX_CHANGE",{
+        	lineIndex: -1
+      	})
+
+      	/*重置LYRIC_DATA比较指针*/
+	    this.$store.commit("LYRIC_DATA_INDEX_CHANGE",{
+	        index: 0
+	    })
+
+	    /*重置歌词移动距离dis*/
+	    this.dis = 0;
+
+    	/*跳转*/
+    	/*this.$router.push({name:'music-play',params:{
+    		songId: this.playList[index].id}
+    	})*/
+
+    	this.getLyric();
    }
 
 
@@ -206,6 +365,10 @@ export default {
 	div,p{
 		font-size: 1rem;
 		color: #fff;
+	}
+	
+	.md-toolbar .md-title{
+		font-size: 1.2rem !important;
 	}
 	#music-play{
 		min-height: 100vh;
@@ -227,20 +390,60 @@ export default {
 		width: 90%;
 		height: 95%;
 		box-shadow: 0px 0px 10px 0px #2a2c33;
-		.img-wrap{
+		.lyric-wrap{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			overflow: hidden;
 			position: relative;
 			height: 60%;
 			img{
 				width: 100%;
 				height: 100%;
 				opacity: 0.5;
+				-webkit-filter: blur(6px);
+				filter: blur(6px);
 			}
 			&::after{
 				content: "";
 				position: absolute;
+				z-index: 1;
 				width: 100%;
 				height: 100%;
-				left:0;
+				left: 0;
+				top: 0;
+				background-color: rgba(58, 58, 58, 0.75);
+
+			}
+			.lyric-box{
+				position: absolute;
+				box-sizing: border-box;
+				padding: 0 20px;
+				width: 100%;
+				height: 80%;
+			    overflow: hidden;
+
+			    .lyric-content{
+					position: relative;
+					overflow: hidden;
+					z-index: 2;
+			    	width:100%;
+			    	transition: all 1s;
+			    	transform: translateY(0px);
+			    }
+
+			    .lyric{
+			    	transition: all .3s;
+			    	font-size: 1.6rem;
+			    	color: #bdbdbd;
+			    	line-height: 2.2;
+
+			    	&.active{
+			    		transform: scale(1.1);
+						font-weight: bold;
+						color: #009688 !important;
+					}
+			    }
 			}
 		}	
 		.main{
@@ -300,6 +503,20 @@ export default {
 			font-size: 80px;
 			flex: 2;
 		}
+	}
+	@media screen and (max-width: 640px){
+		.panel .btn{
+			font-size: 34px;
+		}
+		.panel .play{
+			font-size: 60px;
+		}
+	}
+	@media screen and (max-width: 320px){
+		.container .lyric-wrap .lyric-box .lyric{
+			font-size: 1.2rem;
+		}
+		
 	}
 </style>
 

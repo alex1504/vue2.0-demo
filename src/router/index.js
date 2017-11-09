@@ -44,12 +44,12 @@ const router = new VueRouter({
     component: require('../components/movie/movie_detail.vue'),
   },
   {
-    path: '/home/music/list/:id',
+    path: '/home/music/list/:listId',
     name: 'music-list',
     component: require('../components/music/music_list.vue'),
   },
   {
-    path: '/home/music/list/:id/song/:id',
+    path: '/home/music/list/:listId/song/:songId',
     name: 'music-play',
     component: require('../components/music/music_play.vue'),
   },

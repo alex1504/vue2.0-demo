@@ -1,15 +1,14 @@
 import Mock from 'mockjs';
 import Util from '../util/util'
 /*API-Login-登录接口模拟*/
-var login = Mock.mock("/api/login",{
-  "msg":"登录成功",          //登录成功过信息
-  "code": 0,                 //正常
-  "token": Util.getToken(),            
-  "time": 240000              //有效期4分钟
+var login = Mock.mock("/api/login", {
+  "msg": "登录成功", //登录成功过信息
+  "code": 0, //正常
+  "time": 240000 //有效期4分钟
 })
 
 /*API-movie*/
-var movie = Mock.mock("/api/movie",{
+var movie = Mock.mock("/api/movie", {
   "rating": {
     "max": 10,
     "average": 9.6,
@@ -21,8 +20,7 @@ var movie = Mock.mock("/api/movie",{
     "剧情"
   ],
   "title": "肖申克的救赎",
-  "casts": [
-    {
+  "casts": [{
       "alt": "https://movie.douban.com/celebrity/1054521/",
       "avatars": {
         "small": "https://img3.doubanio.com/img/celebrity/small/17525.jpg",
@@ -56,18 +54,16 @@ var movie = Mock.mock("/api/movie",{
   "collect_count": 1009293,
   "original_title": "The Shawshank Redemption",
   "subtype": "movie",
-  "directors": [
-    {
-      "alt": "https://movie.douban.com/celebrity/1047973/",
-      "avatars": {
-        "small": "https://img3.doubanio.com/img/celebrity/small/230.jpg",
-        "large": "https://img3.doubanio.com/img/celebrity/large/230.jpg",
-        "medium": "https://img3.doubanio.com/img/celebrity/medium/230.jpg"
-      },
-      "name": "弗兰克·德拉邦特",
-      "id": "1047973"
-    }
-  ],
+  "directors": [{
+    "alt": "https://movie.douban.com/celebrity/1047973/",
+    "avatars": {
+      "small": "https://img3.doubanio.com/img/celebrity/small/230.jpg",
+      "large": "https://img3.doubanio.com/img/celebrity/large/230.jpg",
+      "medium": "https://img3.doubanio.com/img/celebrity/medium/230.jpg"
+    },
+    "name": "弗兰克·德拉邦特",
+    "id": "1047973"
+  }],
   "year": "1994",
   "images": {
     "small": "https://img3.doubanio.com/view/movie_poster_cover/ipst/public/p480747492.jpg",
@@ -79,17 +75,15 @@ var movie = Mock.mock("/api/movie",{
 })
 
 /*API-music*/
-var music = Mock.mock("/api/music",{
-	'list|1-10': [{
-        'id|+1': 1
-    }]
+var music = Mock.mock("/api/music", {
+  'list|1-10': [{
+    'id|+1': 1
+  }]
 })
 
 
 
 export default {
-	movie,
-	music
+  movie,
+  music
 }
-
-

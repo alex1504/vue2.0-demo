@@ -1,27 +1,23 @@
-# vue2.0-demo
-> A simple Vue.js project
+## Vue2.0 demo
+> This is a simple vuejs project built by vue-cli webpack-simple template.
 
-![demo](http://huzerui.com/vue2.0-demo/statics/img/readme/desc-1.gif)
+![preview](http://huzerui.com/vue2.0-demo/statics/img/readme/desc-1.gif)
 
-## Scanning Qrcode 
+## Preview
+[http://huzerui.com/vue2.0-demo/](http://huzerui.com/vue2.0-demo/)
+
+You'd better open it in mobile mode of browser or just view in your mobilephone by scanning the qrcode below.
+
 ![qrcode](http://huzerui.com/vue2.0-demo/statics/img/readme/qrcode.png)
 
-View the demo in your mobilephone by scanning the qrcode above.
+## Base
+- [vue](https://vuejs.org/): A MVVM framework.
+- [vue-router](https://router.vuejs.org/): Official router plugin
+- [vuex](https://vuex.vuejs.org/): State management.
+- [vue-material](https://vue-material-old.netlify.com/#/):  A material css ui framework
+- [axios](https://github.com/axios/axios):  A http request plugin
 
-## Plugin of production
--  vue-material:  A material css ui framework
--  vue-router: Official router plugin
--  axios:  A http request plugin
-
-## Plugin of production
-Please check package.json profile
-
-## View in Online Address
-[http://huzerui.com/vue2.0-demo/](http://huzerui.com/vue2.0-demo/)
-You'd better open it in mobile mode of browser or just view in your mobilephone
-
-## View in local
-
+## Development
 ``` bash
 # clone project from github to your computer
 git clone https://github.com/alex1504/vue2.0-demo.git
@@ -35,9 +31,6 @@ npm install
 # serve with hot reload at localhost:8080
 npm run dev
 
-# build for production with minification
+# build for production
 npm run build
 ```
-
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
-

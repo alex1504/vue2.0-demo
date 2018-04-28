@@ -2,7 +2,7 @@
     <div id="movie">
         <backToTop @clickBack="backToTop"></backToTop>
         <md-theme md-name="blue">
-            <md-tabs md-fixed :class="{'wrap-fixed': isScrollDown}" md-active-tab="top">
+            <md-tabs md-fixed :class="{'wrap-fixed': isScrollDown}" @change="onTabChange">
                 <md-tab md-label="top250" id="top">
                     <movieListTop250></movieListTop250>
                 </md-tab>
@@ -27,17 +27,28 @@
     export default {
         data() {
             return {
-                isScrollDown: false
+                isScrollDown: false,
+                activeTab: 0
             };
         },
         mounted: function () {
         },
         methods: {
-            switchMovie(index) {
-                console.log(1)
+            onTabChange(index){
+                this.activeTab = index;
             },
             backToTop() {
-                this.$el.querySelector(".j-container").scrollTop = 0;
+                cancelAnimationFrame(timer);
+                let fn = ()=>{
+                    let oTop = this.$el.querySelectorAll(".j-container")[this.activeTab].scrollTop;
+                    if(oTop > 0){
+                        this.$el.querySelectorAll(".j-container")[this.activeTab].scrollTop = oTop - 200;
+                        timer = requestAnimationFrame(fn);
+                    }else{
+                        cancelAnimationFrame(timer);
+                    }
+                };
+                let timer = requestAnimationFrame(fn);
             }
         },
         components: {

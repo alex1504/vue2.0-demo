@@ -1,6 +1,12 @@
 import AV from "../assets/js/av"
 
-//防抖动函数
+/**
+ * 防抖函数
+ * @param fn
+ * @param delay
+ * @param options
+ * @returns {Function}
+ */
 function debounce(fn, delay, options) {
     if (options && options.immediate === true) {
         fn();
@@ -16,6 +22,10 @@ function debounce(fn, delay, options) {
     }
 }
 
+/**
+ * 判断是否处于登录状态
+ * @returns {boolean}
+ */
 function isCurrentUser() {
     var currentUser = AV.User.current();
     if (currentUser) {

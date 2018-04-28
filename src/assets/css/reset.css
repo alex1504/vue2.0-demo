@@ -7,7 +7,6 @@
 * @copyright: 基于 normalize.css | MIT License
 */
 
-
 /**
 * Neat.css 解决的问题
 * 基于业务需要兼容的浏览器做到以下几点：
@@ -17,7 +16,6 @@
 * 4.考虑响应式；
 * 5.考虑移动设备。
 */
-
 
 /* ==========================================================================
  有即是无，无即是有
@@ -52,10 +50,9 @@ tbody,
 tfoot,
 th,
 td {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
-
 
 /**
 * 非大面积文字排版网站通常不需要列表项，如果需要可单独设置
@@ -63,15 +60,13 @@ td {
 
 ul,
 ol {
-  list-style-type: none;
-  list-style-image: none;
+    list-style-type: none;
+    list-style-image: none;
 }
-
 
 /* ==========================================================================
  链接
  ========================================================================== */
-
 
 /**
 * 1. 去除链接默认的下划线，提高文字可读性
@@ -79,12 +74,11 @@ ol {
 */
 
 a {
-  text-decoration: none;
-  /* 1 */
-  background-color: transparent;
-  /* 2 */
+    text-decoration: none;
+    /* 1 */
+    background-color: transparent;
+    /* 2 */
 }
-
 
 /**
 * 去掉点击时的焦点框，同时保证使用键盘可以显示焦点框
@@ -92,9 +86,8 @@ a {
 
 a:active,
 a:hover {
-  outline-width: 0;
+    outline-width: 0;
 }
-
 
 /**
 * 统一 Chrome 和 Safari 的焦点框样式
@@ -104,33 +97,30 @@ a:hover {
 */
 
 a:focus {
-  outline: 1px dotted;
+    outline: 1px dotted;
 }
-
 
 /* ==========================================================================
  字体和基础排版
  ========================================================================== */
-
 
 /**
 * 1.防止 iOS 横屏字号放大，同时保证在PC上 zoom 功能正常
 */
 
 html {
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-  /* 1 */
-  font-size: 62.5%;
-  /* 10/16=62.5% */
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* 1 */
+    font-size: 62.5%;
+    /* 10/16=62.5% */
 }
 
 body {
-  font-size: 14px;
-  line-height: 1.8;
+    font-size: 14px;
+    line-height: 1.8;
 }
-
 
 /**
 * 所有 font-family 小写，存在空格的字体名加单引号
@@ -139,7 +129,6 @@ body {
   \5FAE\8F6F\96C5\9ED1, \5B8B\4F53, 'wenquanyi micro hei', sans-serif;
 * @code-font: monaco, menlo, consolas, monospace;
 */
-
 
 /**
 * 中文优先使用冬青黑体简体(OS X)、微软雅黑(Windows)和文泉驿微米黑(Linux)
@@ -155,13 +144,12 @@ button,
 input,
 select,
 textarea {
-  font-family: 'helvetica neue', arial, 'hiragino sans gb', stheiti, 'wenquanyi micro hei', \5FAE\8F6F\96C5\9ED1, \5B8B\4F53, sans-serif;
-  -ms-text-autospace: ideograph-alpha ideograph-numeric ideograph-parenthesis;
-  /* 5 */
-  text-spacing: ideograph-alpha ideograph-numeric ideograph-parenthesis;
-  /* 5 */
+    font-family: 'helvetica neue', arial, 'hiragino sans gb', stheiti, 'wenquanyi micro hei', \5FAE\8F6F\96C5\9ED1, \5B8B\4F53, sans-serif;
+    -ms-text-autospace: ideograph-alpha ideograph-numeric ideograph-parenthesis;
+    /* 5 */
+    text-spacing: ideograph-alpha ideograph-numeric ideograph-parenthesis;
+    /* 5 */
 }
-
 
 /**
 * 中文小于 12px 可读性很差
@@ -175,33 +163,32 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: normal;
+    font-weight: normal;
 }
 
 h1 {
-  font-size: 36px;
+    font-size: 36px;
 }
 
 h2 {
-  font-size: 30px;
+    font-size: 30px;
 }
 
 h3 {
-  font-size: 22px;
+    font-size: 22px;
 }
 
 h4 {
-  font-size: 18px;
+    font-size: 18px;
 }
 
 h5 {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 h6 {
-  font-size: 12px;
+    font-size: 12px;
 }
-
 
 /**
 * 修正「abbr」元素在 Firefox 外其他浏览器没有下划线的问题
@@ -210,12 +197,11 @@ h6 {
 
 abbr,
 acronym {
-  border-bottom: 1px dotted;
-  /* 1 */
-  cursor: help;
-  /* 2 */
+    border-bottom: 1px dotted;
+    /* 1 */
+    cursor: help;
+    /* 2 */
 }
-
 
 /**
 * Firefox3+，Safari4/5 和 Chrome 中统一设置为粗体
@@ -223,29 +209,26 @@ acronym {
 
 b,
 strong {
-  font-weight: bold;
+    font-weight: bold;
 }
-
 
 /**
 * 修正 Safari5 和 Chrome 中没有样式的问题
 */
 
 dfn {
-  font-style: italic;
+    font-style: italic;
 }
-
 
 /**
 * 修正 Firefox 和其他浏览器之间的差异
 */
 
 hr {
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box;
-  height: 0;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
 }
-
 
 /**
 * 网页标记，荧光笔
@@ -253,10 +236,9 @@ hr {
 */
 
 mark {
-  background-color: #d2e5ff;
-  color: #000;
+    background-color: #d2e5ff;
+    color: #000;
 }
-
 
 /**
 * 统一代码的字体设置
@@ -271,9 +253,8 @@ code,
 kbd,
 pre,
 samp {
-  font-family: monaco, menlo, consolas, 'courier new', courier, monospace;
+    font-family: monaco, menlo, consolas, 'courier new', courier, monospace;
 }
-
 
 /**
 * 增强所有浏览器中 pre 标签中文本的可读性
@@ -282,13 +263,12 @@ samp {
 */
 
 pre {
-  white-space: pre;
-  white-space: pre-wrap;
-  /* 1 */
-  word-wrap: break-word;
-  overflow: auto;
+    white-space: pre;
+    white-space: pre-wrap;
+    /* 1 */
+    word-wrap: break-word;
+    overflow: auto;
 }
-
 
 /**
 * 行内引用
@@ -297,9 +277,8 @@ pre {
 */
 
 q {
-  quotes: none;
+    quotes: none;
 }
-
 
 /**
 * Safari 4 不支持<q>标签
@@ -307,20 +286,18 @@ q {
 
 q:before,
 q:after {
-  content: '';
-  content: none;
+    content: '';
+    content: none;
 }
-
 
 /**
 * 中文网页<small>元素字号小于 12px 不易阅读
 */
 
 small {
-  font-size: 85.7%;
-  /* 12/14=0.8571428571 */
+    font-size: 85.7%;
+    /* 12/14=0.8571428571 */
 }
-
 
 /**
 * 防止所有浏览器中的<sub>和<sup>影响行高
@@ -329,35 +306,32 @@ small {
 
 sub,
 sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline;
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
 }
 
 sup {
-  top: -.5em;
+    top: -.5em;
 }
 
 sub {
-  bottom: -.25em;
+    bottom: -.25em;
 }
-
 
 /* ==========================================================================
  表格
  ========================================================================== */
-
 
 /**
 * 合并单元格边框
 */
 
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
-
 
 /**
 * 修复 IE 中 th 不能继承 text-align 的问题并统一左对齐
@@ -365,9 +339,8 @@ table {
 */
 
 th {
-  text-align: left;
+    text-align: left;
 }
-
 
 /**
 * 单元格添加边框
@@ -375,26 +348,23 @@ th {
 
 table th,
 table td {
-  border: 1px solid #ddd;
-  padding: 8px 10px;
+    border: 1px solid #ddd;
+    padding: 8px 10px;
 }
-
 
 /**
 * 表头底部边框
 */
 
 table th {
-  font-weight: inherit;
-  border-bottom-width: 2px;
-  border-bottom-color: #ccc;
+    font-weight: inherit;
+    border-bottom-width: 2px;
+    border-bottom-color: #ccc;
 }
-
 
 /* ==========================================================================
  嵌入元素
  ========================================================================== */
-
 
 /**
 * 1. 去除 IE6-9 和 Firefox 3 中 a 内部 img 元素默认的边框
@@ -407,45 +377,41 @@ table th {
 */
 
 img {
-  border-style: none;
-  /* 1 */
-  width: auto\9;
-  /* 2 */
-  height: auto;
-  /* 3 */
-  max-width: 100%;
-  /* 4 */
-  vertical-align: top;
-  /* 5 */
-  -ms-interpolation-mode: bicubic;
-  /* 6 */
+    border-style: none;
+    /* 1 */
+    width: auto \9;
+    /* 2 */
+    height: auto;
+    /* 3 */
+    max-width: 100%;
+    /* 4 */
+    vertical-align: top;
+    /* 5 */
+    -ms-interpolation-mode: bicubic;
+    /* 6 */
 }
-
 
 /**
 * 修复 IE9 中的「overflow」的怪异表现
 */
 
 svg:not(:root) {
-  overflow: hidden;
+    overflow: hidden;
 }
-
 
 /* ==========================================================================
  表单
  ========================================================================== */
-
 
 /**
 * 定义一致的边框、外边距和内边距
 */
 
 fieldset {
-  border: 1px solid #c0c0c0;
-  margin: 0 2px;
-  padding: .35em .625em .75em;
+    border: 1px solid #c0c0c0;
+    margin: 0 2px;
+    padding: .35em .625em .75em;
 }
-
 
 /**
 * 1. 修正 IE 6-9 中颜色不能继承的问题
@@ -454,14 +420,13 @@ fieldset {
 */
 
 legend {
-  border-style: none;
-  /* 1 */
-  white-space: normal;
-  /* 2 */
-  *margin-left: -7px;
-  /* 3 */
+    border-style: none;
+    /* 1 */
+    white-space: normal;
+    /* 2 */
+    *margin-left: -7px;
+    /* 3 */
 }
-
 
 /**
 * 1. 修正所有浏览器中字体不继承的问题
@@ -474,18 +439,17 @@ button,
 input,
 select,
 textarea {
-  font-family: inherit;
-  /* 1 */
-  font-size: 100%;
-  /* 2 */
-  margin: 0;
-  /* 3 */
-  vertical-align: baseline;
-  /* 4 */
-  *vertical-align: middle;
-  /* 4 */
+    font-family: inherit;
+    /* 1 */
+    font-size: 100%;
+    /* 2 */
+    margin: 0;
+    /* 3 */
+    vertical-align: baseline;
+    /* 4 */
+    *vertical-align: middle;
+    /* 4 */
 }
-
 
 /**
 * 修正 IE7 随着字数增加边距不断增加的问题
@@ -493,9 +457,8 @@ textarea {
 
 input,
 button {
-  *overflow: visible;
+    *overflow: visible;
 }
-
 
 /**
 * 统一各浏览器「text-transform」不会继承的问题
@@ -505,9 +468,8 @@ button {
 
 button,
 select {
-  text-transform: none;
+    text-transform: none;
 }
-
 
 /**
 * 1. 避免 Android 4.0.* 中的 WebKit bug ，该bug会破坏原生的
@@ -520,12 +482,11 @@ button,
 html input[type="button"],
 input[type="reset"],
 input[type="submit"] {
-  -webkit-appearance: button;
-  /* 2 */
-  cursor: pointer;
-  /* 3 */
+    -webkit-appearance: button;
+    /* 2 */
+    cursor: pointer;
+    /* 3 */
 }
-
 
 /**
 * 重置按钮禁用时光标样式
@@ -533,9 +494,8 @@ input[type="submit"] {
 
 button[disabled],
 input[disabled] {
-  cursor: default;
+    cursor: default;
 }
-
 
 /**
 * 1. 修正 IE 8/9 box-sizing 被设置为「content-box」的问题
@@ -545,17 +505,16 @@ input[disabled] {
 
 input[type="checkbox"],
 input[type="radio"] {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  /* 1 */
-  padding: 0;
-  /* 2 */
-  *height: 13px;
-  /* 3 */
-  *width: 13px;
-  /* 3 */
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    /* 1 */
+    padding: 0;
+    /* 2 */
+    *height: 13px;
+    /* 3 */
+    *width: 13px;
+    /* 3 */
 }
-
 
 /**
 * 1. 修正 Safari 5 和 Chrome 中「appearance」被设置为「searchfield」的问题
@@ -563,12 +522,11 @@ input[type="radio"] {
 */
 
 input[type="search"] {
-  -webkit-appearance: textfield;
-  /* 1 */
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box;
+    -webkit-appearance: textfield;
+    /* 1 */
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
 }
-
 
 /**
 * 1.移除 OS X 中 Safari5 和 Chrome 搜索框内侧的左边距
@@ -577,9 +535,8 @@ input[type="search"] {
 */
 
 input[type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none;
+    -webkit-appearance: none;
 }
-
 
 /**
 * 移除 Firefox 3+ 的内边距
@@ -587,10 +544,9 @@ input[type="search"]::-webkit-search-decoration {
 
 button::-moz-focus-inner,
 input::-moz-focus-inner {
-  border-style: none;
-  padding: 0;
+    border-style: none;
+    padding: 0;
 }
-
 
 /**
 * 修正 Chrome 中 input [type="number"] 在特定高度和 font-size 时,
@@ -601,9 +557,8 @@ input::-moz-focus-inner {
 
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-  height: auto;
+    height: auto;
 }
-
 
 /**
 * 1. 移除 IE6-11 中默认的垂直滚动条
@@ -611,12 +566,11 @@ input[type="number"]::-webkit-outer-spin-button {
 */
 
 textarea {
-  overflow: auto;
-  /* 1 */
-  resize: vertical;
-  /* 2 */
+    overflow: auto;
+    /* 1 */
+    resize: vertical;
+    /* 2 */
 }
-
 
 /**
 * 修正 Chrome 30- option 中文字无法显示的问题
@@ -625,20 +579,18 @@ textarea {
 
 select:disabled option:checked,
 option:disabled:checked {
-  color: #d2d2d2;
+    color: #d2d2d2;
 }
-
 
 /**
 * 修正 Safari 3+, Chrome 1+ Placeholder 居中问题
 */
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
-  input {
-    line-height: normal !important;
-  }
+    input {
+        line-height: normal !important;
+    }
 }
-
 
 /**
 * 修正 Firefox 19+ Placeholder 设置了opacity 的问题
@@ -646,19 +598,17 @@ option:disabled:checked {
 
 input::-moz-placeholder,
 textarea::-moz-placeholder {
-  color: darkGray;
-  opacity: 1;
+    color: darkGray;
+    opacity: 1;
 }
-
 
 /**
 * label 元素给予手型，暗示此处可点击
 */
 
 label {
-  cursor: pointer;
+    cursor: pointer;
 }
-
 
 /**
 * 统一 select 样式, Firefox 中有 padding:1px 0
@@ -668,15 +618,13 @@ label {
 select[size],
 select[multiple],
 select[size][multiple] {
-  border: 1px solid #aaa;
-  padding: 0;
+    border: 1px solid #aaa;
+    padding: 0;
 }
-
 
 /* ==========================================================================
  HTML5 元素
  ========================================================================== */
-
 
 /**
 * 修正未定义为「block」的元素
@@ -694,9 +642,8 @@ main,
 nav,
 section,
 summary {
-  display: block;
+    display: block;
 }
-
 
 /**
 * 1. 修正未定义为「inline-block」的元素
@@ -707,12 +654,11 @@ audio,
 canvas,
 video,
 progress {
-  display: inline-block;
-  /* 1 */
-  vertical-align: baseline;
-  /* 2 */
+    display: inline-block;
+    /* 1 */
+    vertical-align: baseline;
+    /* 2 */
 }
-
 
 /**
 * 1.防止现代浏览器将没有「controls」属性的 「audio」元素显示出来
@@ -720,12 +666,11 @@ progress {
 */
 
 audio:not([controls]) {
-  display: none;
-  /* 1 */
-  height: 0;
-  /* 2 */
+    display: none;
+    /* 1 */
+    height: 0;
+    /* 2 */
 }
-
 
 /**
 * 修复 IE 7/8/9，Firefox 3 和 Safari 4 中 「hidden」属性不起作用的问题
@@ -734,9 +679,8 @@ audio:not([controls]) {
 
 [hidden],
 template {
-  display: none;
+    display: none;
 }
-
 
 /**
 * 为可拖动元素添加拖动的光标
@@ -744,8 +688,7 @@ template {
 */
 
 [draggable] {
-  cursor: move;
+    cursor: move;
 }
-
 
 /*# sourceMappingURL=neat.css.map */

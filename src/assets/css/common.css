@@ -1,13 +1,14 @@
 /* 通用 */
-html,body{
-	width: 100%;
-	height: 100%;
-	overflow-x: hidden;
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
 }
 
-.md-spinner{
-	margin-top: 10px;
+.md-spinner {
+    margin-top: 10px;
 }
+
 /* 主题 */
 /* .md-theme-blue{
 	background-color: #2196f3

@@ -12,7 +12,7 @@
                         <h2 class="md-title">{{movieDetail.title}}</h2>
                         <div class="md-subhead">
                             <p>{{movieDetail.countries ? movieDetail.countries[0] : ''}}/<span
-                                    v-for="genre in movieDetail.genres">{{genre}}</span></p>
+                                    v-for="(genre,index) in movieDetail.genres" :key="index">{{genre}}</span></p>
                             <p>年份：{{movieDetail.year}}</p>
                         </div>
                     </md-card-header>

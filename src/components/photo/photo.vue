@@ -3,7 +3,7 @@
         <div class="j-content">
             <div class="m-gallery">
                 <transition-group name="fade" tag="div">
-                    <div v-for="(photo,index) in photoLists" :key="photo" class="item" @click="getPhotoDetail(index)">
+                    <div v-for="(photo,index) in photoLists" :key="index" class="item" @click="getPhotoDetail(index)">
                         <img class="animated bounceIn" :src="photo.url">
                     </div>
                 </transition-group>
@@ -69,11 +69,11 @@
                 Store.set('photoData', photoData);
             },
             isTouchScreenBtm: function (e) {
-                var winH = window.innerHeight || document.documentElement.clientHeight;
-                var navH = document.querySelector(".top-nav").offsetHeight * 2;
-                var innerWinH = winH - navH + 168;
-                var eleH = this.eleH;
-                var scrT = this.scrContainer.scrollTop;
+                const winH = window.innerHeight || document.documentElement.clientHeight;
+                const navH = document.querySelector(".top-nav").offsetHeight * 2;
+                const innerWinH = winH - navH + 168;
+                const eleH = this.eleH;
+                let scrT = this.scrContainer.scrollTop;
                 if (scrT >= eleH - innerWinH) {
                     return true;
                 } else {

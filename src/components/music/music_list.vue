@@ -6,7 +6,7 @@
 			<search @searchSong="showResults"></search>
 			<md-spinner :md-size="60" md-indeterminate v-if='spinnerFlag'></md-spinner>
 			<md-list v-if="flag" v-show="!spinnerFlag">
-				<md-list-item v-for="(music, index) of activeList" @click='goPlay(index)' :class="bgState[index]">
+				<md-list-item v-for="(music, index) in activeList" :key="index" @click='goPlay(index)' :class="bgState[index]">
 					<md-avatar>
 						<img :src="music.album.picUrl" alt="People">
 					</md-avatar>
@@ -18,7 +18,7 @@
 				</md-list-item>
 			</md-list>
 			<md-list v-if="!flag" v-show="!spinnerFlag">
-				<md-list-item v-for="(music, index) of searchList" @click='goPlay(index)' :class="bgState[index]">
+				<md-list-item v-for="(music, index) in searchList" :key="index" @click='goPlay(index)' :class="bgState[index]">
 					<md-avatar>
 						<img :src="music.album.picUrl" alt="People">
 					</md-avatar>

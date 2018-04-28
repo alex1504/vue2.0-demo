@@ -2,14 +2,14 @@
     <div id="movie">
         <backToTop @clickBack="backToTop"></backToTop>
         <md-theme md-name="blue">
-            <md-tabs md-fixed :class="{'wrap-fixed': isScrollDown}">
-                <md-tab md-label="top250">
+            <md-tabs md-fixed :class="{'wrap-fixed': isScrollDown}" md-active-tab="top">
+                <md-tab md-label="top250" id="top">
                     <movieListTop250></movieListTop250>
                 </md-tab>
-                <md-tab md-label="正在热映">
+                <md-tab md-label="正在热映" id="hot">
                     <movieListHot></movieListHot>
                 </md-tab>
-                <md-tab md-label="即将上映">
+                <md-tab md-label="即将上映" id="comming">
                     <movieListComing></movieListComing>
                 </md-tab>
             </md-tabs>

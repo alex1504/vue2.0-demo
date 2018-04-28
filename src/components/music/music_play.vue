@@ -9,8 +9,8 @@
                     <img :src="activeSong.avatarUrl">
                     <div class="lyric-box">
                         <div class="lyric-content">
-                            <p :class="['lyric', lineIndex === index ? 'active' : '']" v-for="(obj,index) of lyricData"
-                               :data-time="obj.time">{{obj.lyric}}</p>
+                            <p :class="['lyric', lineIndex === index ? 'active' : '']" v-for="(obj,index) in lyricData"
+                               :data-time="obj.time" :key="index">{{obj.lyric}}</p>
                         </div>
                     </div>
                 </div>

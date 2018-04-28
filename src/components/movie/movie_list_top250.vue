@@ -2,13 +2,13 @@
     <div id="movielist-top250" class="j-container">
         <div class="j-content">
             <md-list class="custom-list md-triple-line">
-                <md-list-item v-for="movie in movieLists" @click="getMovieDetail(movie.id)">
+                <md-list-item v-for="(movie,index) in movieLists" :key="index" @click="getMovieDetail(movie.id)">
                     <md-avatar>
                         <img :src="movie.images.large" alt="People">
                     </md-avatar>
                     <div class="md-list-text-container">
                         <span>{{movie.title}}</span>
-                        <p><span v-for="genre in movie.genres">{{genre}}</span>({{movie.year}})(平均{{movie.rating.average}}分)
+                        <p><span v-for="(genre,index) in movie.genres" :key="index">{{genre}}</span>({{movie.year}})(平均{{movie.rating.average}}分)
                         </p>
                     </div>
                     <md-button class="md-icon-button md-list-action">

@@ -6,7 +6,7 @@
             <swipe-item class="slide3"></swipe-item>
         </swipe>
         <md-list class="custom-list md-triple-line">
-            <md-list-item v-for="item in books">
+            <md-list-item v-for="(item,index) in books" :key="index">
                 <md-avatar>
                     <img :src="item.book.image" alt="bookPoster">
                 </md-avatar>

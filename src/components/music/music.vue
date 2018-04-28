@@ -1,7 +1,7 @@
 <template>
     <div id="music">
         <md-layout class="layout-wrap" md-gutter>
-            <md-layout md-flex-xsmall="50" md-flex-small="50" md-flex-medium="33" v-for="(album, index) of albums">
+            <md-layout md-flex-xsmall="50" md-flex-small="50" md-flex-medium="33" v-for="(album, index) in albums" :key="index">
                 <img class="album-img" :src="album.bg" @click="showList(index)">
             </md-layout>
         </md-layout>

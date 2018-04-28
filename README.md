@@ -17,6 +17,10 @@ You'd better open it in mobile mode of browser or just view in your mobilephone 
 - [vue-material](https://vue-material-old.netlify.com/#/):  A material css ui framework
 - [axios](https://github.com/axios/axios):  A http request plugin
 
+## Notice
+The movie and book api comes from [Douban](https://developers.douban.com/wiki/?title=guide), it has restiction.
+Every single ip can access api without apikey 150 times per hours and api with apikey 500 timers per hours. If you can't see any movie or book content, that means you need to wait for Douban api recovery.
+
 ## Development
 ``` bash
 # clone project from github to your computer

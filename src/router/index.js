@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  base: '/vue2.0-demo/',
+  // base: '/vue2.0-demo/',
   routes: [{
       name: 'home',
       path: '/home',

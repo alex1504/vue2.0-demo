@@ -4,7 +4,7 @@
 ![preview](http://huzerui.com/vue2.0-demo/statics/img/readme/desc-1.gif)
 
 ## Preview
-[http://huzerui.com/vue2.0-demo/](http://huzerui.com/vue2.0-demo/)
+[http://huzerui.com/vue2.0-demo/](http://vue2demo.huzerui.com)
 
 You'd better open it in mobile mode of browser or just view in your mobilephone by scanning the qrcode below.
 

@@ -86,7 +86,7 @@
                 var start = this.movieLists.length;
                 this.busy = true;
                 this.spinnerFlag = true;
-                axios.get(API_PROXY + 'https://api.douban.com/v2/movie/top250?count=10&start=' + start)
+                axios.get('/api/douban/movie/top250?count=10&start=' + start)
                     .then(function (res) {
                         console.log("请求成功");
                         res.data.subjects.forEach(movie => {

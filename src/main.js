@@ -2,67 +2,62 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store/store'
-import VueMaterial  from 'vue-material'
+import VueMaterial from 'vue-material'
 import VueTouch from 'vue-touch'
 
-/*mockData在接口尚未完成用于生成假数据，项目上线时不需引入*/
+/* mockData 在接口尚未完成用于生成假数据，项目上线时不需引入 */
 import mockData from './mock'
 
-
-
-/*全局常量*/
-global.API_PROXY = 'https://bird.ioliu.cn/v1/?url='                    // 线上代理地址
-global.LOCAL_API_PROXY = 'http://192.168.1.128/proxy.php?apiProxy='    // 本地代理地址，注意更改为你的主机ip
-//global.RESOURCE_PATH =  'http://'+window.location.host+"/statics"
+/* 全局常量 */
+// global.API_PROXY = 'https://bird.ioliu.cn/v1/?url='
 
 /*注册主题*/
-Vue.use(VueMaterial)
+Vue.use(VueMaterial);
+
 Vue.material.registerTheme('default', {
-  primary: 'blue',
-  accent: 'red',
-  warn: 'red',
-  background: 'white'
-})
+    primary: 'blue',
+    accent: 'red',
+    warn: 'red',
+    background: 'white'
+});
 Vue.material.registerTheme('blue', {
-  primary: 'blue',
-  accent: 'red',
-  warn: 'red',
-  background: 'white'
-})
+    primary: 'blue',
+    accent: 'red',
+    warn: 'red',
+    background: 'white'
+});
 Vue.material.registerTheme('teal', {
-  primary: 'teal',
-  accent: 'red',
-  warn: 'red',
-  background: 'white'
-})
+    primary: 'teal',
+    accent: 'red',
+    warn: 'red',
+    background: 'white'
+});
 Vue.material.registerTheme('brown', {
-  primary: 'brown',
-  accent: 'red',
-  warn: 'red',
-  background: 'white'
-})
+    primary: 'brown',
+    accent: 'red',
+    warn: 'red',
+    background: 'white'
+});
 Vue.material.registerTheme('indigo', {
-  primary: 'indigo',
-  accent: 'red',
-  warn: 'red',
-  background: 'white'
-})
+    primary: 'indigo',
+    accent: 'red',
+    warn: 'red',
+    background: 'white'
+});
 Vue.material.registerTheme('whiteForm', {
-  primary: 'white',
-  accent: 'deep-orange',
-  warn: 'red',
-  background: 'white'
-})
+    primary: 'white',
+    accent: 'deep-orange',
+    warn: 'red',
+    background: 'white'
+});
 
 /*老版本vue-touch不兼容2.0，会报错 Cannot read property 'priority' of undefined，请使用vue-touch@next版本*/
-Vue.use(VueTouch, {name: 'v-touch'})
-
-
+Vue.use(VueTouch, {name: 'v-touch'});
 
 new Vue({
-  el: '#app',
-  router,
-  store,
-  render: h => h(App)
-})
+    el: '#app',
+    router,
+    store,
+    render: h => h(App)
+});
 

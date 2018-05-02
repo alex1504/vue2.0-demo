@@ -55,7 +55,7 @@
         },
         methods: {
             reqMovieDetail() {
-                axios.get(API_PROXY + 'https://api.douban.com/v2/movie/subject/' + this.movieId)
+                axios.get('/api/douban/movie/subject/' + this.movieId)
                     .then(function (res) {
                         console.log(res);
                         this.movieDetail = res.data.id ? res.data : JSON.parse(res.request.response);

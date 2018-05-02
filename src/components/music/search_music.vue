@@ -20,7 +20,7 @@
         },
         methods: {
             search: Util.debounce(function () {
-                axios.get(API_PROXY + 'http://s.music.163.com/search/get?type=1&s=' + this.searchQuery)
+                axios.get('/api/netease/search/get?type=1&s=' + this.searchQuery)
                     .then(function (res) {
                         if (res.data.result && res.data.result.songs) {
                             var playList = res.data.result.songs;

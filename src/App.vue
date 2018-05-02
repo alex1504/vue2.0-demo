@@ -54,7 +54,7 @@
             lyricData() {
                 return this.$store.state.music.activeSong.lyricData.lineArr
             },
-            lyricDataIndex(){
+            lyricDataIndex() {
                 return this.$store.state.music.activeSong.lyricData.index
             }
         },
@@ -159,7 +159,7 @@
                 this.$refs[ref].close();
             },
             onOpen() {
-                if(this.timer){
+                if (this.timer) {
                     return;
                 }
                 console.log('Opened');

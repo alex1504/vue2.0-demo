@@ -52,7 +52,7 @@
         },
         methods: {
             loadMore: function () {
-                axios.get(API_PROXY + 'https://api.douban.com/v2/book/user/alex1504/collections')
+                axios.get('/api/douban/book/user/alex1504/collections')
                     .then(function (res) {
                         this.books = res.data.collections;
                         this.flag = false;

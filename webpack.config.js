@@ -47,9 +47,31 @@ module.exports = {
             'vue$': 'vue/dist/vue.common.js'
         }
     },
+    // https://webpack.js.org/configuration/dev-server/
     devServer: {
         historyApiFallback: true,
-        noInfo: true
+        noInfo: true,
+        proxy: {
+            '/api/douban/**': {
+                target: 'https://api.douban.com/v2/',
+                secure: false,
+                changeOrigin: true,
+                // 默认情况下，会将规则拼接到target字段的尾部
+                pathRewrite: {"^/api/douban/" : ""}
+            },
+            '/api/netease/common/**': {
+                target: 'http://music.163.com/api',
+                secure: false,
+                changeOrigin: true,
+                pathRewrite: {"^/api/netease/common/" : ""}
+            },
+            '/api/netease/search/**': {
+                target: 'http://s.music.163.com/search',
+                secure: false,
+                changeOrigin: true,
+                pathRewrite: {"^/api/netease/search/" : ""}
+            }
+        }
     },
     performance: {
         hints: false

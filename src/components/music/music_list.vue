@@ -158,7 +158,7 @@
             },
             getList() {
                 this.spinnerFlag = true;
-                axios.get(API_PROXY + 'http://music.163.com/api/playlist/detail?id=' + this.id)
+                axios.get('/api/netease/common/playlist/detail?id=' + this.id)
                     .then(function (res) {
                         var playList = res.data.result.tracks;
                         // 为当前playList的每项增加一个playing状态用于指示歌曲是否正在播放

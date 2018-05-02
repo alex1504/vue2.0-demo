@@ -169,7 +169,7 @@
                 this.hArr = temp;
             },
             getLyric() {
-                axios.get(API_PROXY + 'http://music.163.com/api/song/lyric?os=pc&lv=-1&kv=-1&tv=-1&id=' + this.songId)
+                axios.get('/api/netease/common/song/lyric?os=pc&lv=-1&kv=-1&tv=-1&id=' + this.songId)
                     .then(function (res) {
                         if (res.data.nolyric) {
                             this.$store.commit("LYRIC_DATA_CHANGE", {

@@ -112,7 +112,7 @@
                 return this.$store.state.music.activeSong.lyricData.lineArr
             },
             // 歌词高亮索引
-            lineIndex() {
+            lineIndex(){
                 return this.$store.state.music.activeSong.lyricData.lineIndex
             },
             // 歌词高亮类
@@ -193,12 +193,11 @@
                             splitIndex = val.indexOf(']') + 1;
                             if (val.charAt(1).search(/\d/) === -1) {
                                 /*排除这样的歌词行
-                      [by:冰淇淋蛋黄派]
-                    [ti:凉凉]
-                    [ar:月狸&玄月]
-                    [al:]
-                    [by:冰淇淋蛋黄派]
-                    */
+                                [by:冰淇淋蛋黄派]
+                                [ti:凉凉]
+                                [ar:月狸&玄月]
+                                [al:]
+                                [by:冰淇淋蛋黄派]*/
                                 return true;
                             }
                             timeTemp = val.slice(0, splitIndex);
@@ -272,11 +271,10 @@
                 })
                 /*重置歌词移动距离dis*/
                 this.dis = 0;
-                /*跳转*/
+                //跳转
                 /*this.$router.push({name:'music-play',params:{
-                songId: this.playList[index].id}
-            })
-            */
+                    songId: this.playList[index].id}
+                })*/
                 /*获取歌词*/
                 this.getLyric();
             },
@@ -295,13 +293,13 @@
                 })
                 /*更改视图歌曲信息*/
                 /*this.activeSong = {
-                id: this.playList[index].id,
-                name: this.playList[index].name,
-                singer: this.playList[index].artists[0].name,
-                avatarUrl: this.playList[index].album.picUrl,
-                duration: this.playList[index].duration,
-                activeIndex: index
-            }*/
+                    id: this.playList[index].id,
+                    name: this.playList[index].name,
+                    singer: this.playList[index].artists[0].name,
+                    avatarUrl: this.playList[index].album.picUrl,
+                    duration: this.playList[index].duration,
+                    activeIndex: index
+                }*/
                 /*更改本地歌曲信息*/
                 Store.set('activeSong', {
                     id: this.playList[index].id,

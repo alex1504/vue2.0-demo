@@ -8,7 +8,6 @@
 </template>
 
 <script>
-    import Vue from 'vue'
     import home from './views/home/home.vue'
     import Util from './util/util'
     import Store from './assets/js/storage.js'
@@ -21,6 +20,7 @@
                     content: '音乐资源不稳定,将在3秒之后为您自动播放下一首',
                     ok: 'ok',
                 },
+                timer: null
             }
         },
         computed: {
@@ -54,7 +54,7 @@
             lyricData() {
                 return this.$store.state.music.activeSong.lyricData.lineArr
             },
-            lyricDataIndex() {
+            lyricDataIndex(){
                 return this.$store.state.music.activeSong.lyricData.index
             }
         },
@@ -87,7 +87,6 @@
             }
         },
         mounted: function () {
-            console.log(9999999999)
             // 测试localStorage是否可用
             this.checkLocalStorageEnabled();
             // 刷新进行路由检测跳转
@@ -160,13 +159,17 @@
                 this.$refs[ref].close();
             },
             onOpen() {
+                if(this.timer){
+                    return;
+                }
                 console.log('Opened');
                 // 当资源请求出错，3秒后自动播放下一首
-                setTimeout(function () {
+                this.timer = setTimeout(function () {
                     this.closeDialog('info');
                     this.$store.commit("PLAY_END_NUM_CHANGE", {
                         'endNum': parseInt(Math.random() * 10000000)
-                    })
+                    });
+                    this.timer = null;
                 }.bind(this), 3000)
             },
             onClose(type) {

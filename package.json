@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "vue": "^2.1.0",
+    "vue": "^2.5.16",
     "vue-material": "^0.5.2",
     "vue-router": "^2.1.1",
     "vue-swipe": "^2.0.2",
